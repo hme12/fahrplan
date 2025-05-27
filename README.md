@@ -28,7 +28,7 @@ Mit dem Button links unten kommt man zur Liste der Stationen in der Umgebung.
 
 ![Standort](https://github.com/user-attachments/assets/27a8e2af-f286-405c-a032-f38f90f1842c)
 
-Es werden die Stationen in der Umgebung angezeigt.
+Es werden die Stationen in der Umgebung aufgelistet.
 
 ![Stationen](https://github.com/user-attachments/assets/dde6fe20-62fa-4874-994d-870e2d34b19e)
 
