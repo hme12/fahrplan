@@ -4,6 +4,14 @@ In otd_header.dart muss ein Schlüssel vom opentransportdata.swiss eingetragen w
 
 in ors_key.dart muss ein Schlüssel vom openrouteservice.org eingetragen werden.
 
+Die Abhängigkeiten sind in pubspec.yaml gelistet.
+
+Die Permissions in AndroidManifest.xml lauten:
+
+  <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+  <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+  <uses-permission android:name="android.permission.INTERNET"/>
+
 Der aktuelle Standort wird auf dem Start-Screen angezeigt. 
 
 Auf der Karte (Button unten) kann man einen alternativen Standort auswählen.
