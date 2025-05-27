@@ -42,5 +42,9 @@ Die Umgebung der Station kann man sich mit Hilfe des Buttons unten anzeigen lass
 
 ![Stationsumgebung](https://github.com/user-attachments/assets/72483eb0-da1e-410c-afa5-378b6797ec23)
 
+Nach der Auswahl einer Station werden die dortigen nächsten Verbindungen angezeigt.
+
 ![neue_Verbindungen](https://github.com/user-attachments/assets/17100ffd-cb2c-4476-86a6-f1aad6a6a521)
+
+usw.
 
