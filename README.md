@@ -5,7 +5,9 @@ In otd_header.dart muss ein Schlüssel vom opentransportdata.swiss eingetragen w
 in ors_key.dart muss ein Schlüssel vom openrouteservice.org eingetragen werden.
 
 Der aktuelle Standort wird auf dem Start-Screen angezeigt. 
+
 Auf der Karte (Button unten) kann man einen alternativen Standort auswählen.
+
 Das Datum und die Uhrzeit können ebenfalls geändert werden. 
 
 ![Start](https://github.com/user-attachments/assets/67ede6e9-a144-4454-ac4a-cd57c881bec0)
