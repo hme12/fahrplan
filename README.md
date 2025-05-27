@@ -14,7 +14,7 @@ Die Permissions in AndroidManifest.xml lauten:
   
   android.permission.INTERNET
   
-**Benutzung**
+**Screens:**
 
 Der aktuelle Standort wird auf dem Start-Screen angezeigt. 
 
