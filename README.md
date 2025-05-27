@@ -13,6 +13,8 @@ Die Permissions in AndroidManifest.xml lauten:
   android.permission.ACCESS_FINE_LOCATION
   
   android.permission.INTERNET
+  
+**Benutzung**
 
 Der aktuelle Standort wird auf dem Start-Screen angezeigt. 
 
