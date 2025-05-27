@@ -32,9 +32,9 @@ Auf der Karte, die man mit dem Button unten aufrufen kann, kann man sich den Weg
 
 Nach der Auswahl einer Verbindung werden die Stationen der Verbindung angezeigt.
 
-Nach der Auswahl einer Station werden die Stationen in der Umgebung dieser Station angezeigt.
-
 ![Reise](https://github.com/user-attachments/assets/ba85001b-79e2-4fbd-893e-48c943f17af6)
+
+Nach der Auswahl einer Station werden die Stationen in der Umgebung dieser Station angezeigt.
 
 Die Umgebung der Station kann man sich mit Hilfe des Buttons unten anzeigen lassen.
 
