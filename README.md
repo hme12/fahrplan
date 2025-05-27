@@ -1,4 +1,4 @@
-Eine Flutter-App für den öffentlichen Verkehr in der Schweiz
+**Eine Flutter-App für den öffentlichen Verkehr in der Schweiz**
 
 In otd_header.dart muss ein Schlüssel vom opentransportdata.swiss eingetragen werden.
 
