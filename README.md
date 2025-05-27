@@ -10,7 +10,7 @@ Auf der Karte (Button unten) kann man einen alternativen Standort auswählen.
 
 Das Datum und die Uhrzeit können ebenfalls geändert werden. 
 
-Mit dem 
+Mit dem Button links unten kommt man zur Liste der Stationen in der Umgebung.
 
 ![Start](https://github.com/user-attachments/assets/67ede6e9-a144-4454-ac4a-cd57c881bec0)
 
