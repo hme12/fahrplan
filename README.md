@@ -10,9 +10,15 @@ Auf der Karte (Button unten) kann man einen alternativen Standort auswählen.
 
 Das Datum und die Uhrzeit können ebenfalls geändert werden. 
 
+Mit dem 
+
 ![Start](https://github.com/user-attachments/assets/67ede6e9-a144-4454-ac4a-cd57c881bec0)
 
 ![Standort](https://github.com/user-attachments/assets/27a8e2af-f286-405c-a032-f38f90f1842c)
+
+Es werden die Stationen in der Umgebung angezeigt.
+
+Nach der Auswahl einer Station werden die dortigen nächsten Verbindungen angezeigt.
 
 ![Stationen](https://github.com/user-attachments/assets/dde6fe20-62fa-4874-994d-870e2d34b19e)
 
