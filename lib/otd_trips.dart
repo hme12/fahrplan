@@ -29,7 +29,8 @@ String myTripRequestString(String requestTime, String jRef, String opDay) {
   String req7 =
       '</OperatingDayRef> </OJPTripInfoRequest> </siri:ServiceRequest> </OJPRequest> </OJP>';
 
-  String request = req1 +
+  String request =
+      req1 +
       requestTime +
       req2 +
       rref +
@@ -47,7 +48,10 @@ String myTripRequestString(String requestTime, String jRef, String opDay) {
 }
 
 Future<List> myTripRequestF(
-    String requestTime, String jRef, String opDay) async {
+  String requestTime,
+  String jRef,
+  String opDay,
+) async {
   String thisDTimeString0 = "";
   String thisDTimeString1 = "";
 
@@ -157,7 +161,8 @@ Future<List> myTripRequestF(
       StopPointRefText = StopPointRefText0;
     }
 
-    theCall[jRef + StopPointRefText] = StopPointRefText +
+    theCall[jRef + StopPointRefText] =
+        StopPointRefText +
         "|" +
         StopPointNameText +
         "|" +
