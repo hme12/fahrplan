@@ -94,13 +94,23 @@ class TripPageState extends State<TripPage> {
     Navigator.pushNamed(context, newroute, arguments: stopArgs);
   }
 
-  void oneStation(String fSId, String fSLId, String fSName, String fATime1,
-      String fDTime1) {
+  void oneStation(
+    String fSId,
+    String fSLId,
+    String fSName,
+    String fATime1,
+    String fDTime1,
+  ) {
     myOneStationRequest(requestUtc, fSId, fSName, fATime1, fDTime1);
   }
 
-  void myOneStationRequest(String ftUtc, String fstId, String fstName,
-      String fATime1, String fDTime1) async {
+  void myOneStationRequest(
+    String ftUtc,
+    String fstId,
+    String fstName,
+    String fATime1,
+    String fDTime1,
+  ) async {
     TheOneStation = await myOneStationRequestF(ftUtc, fstId, fstName);
 
     List<String> TheOneStationList = TheOneStation.split('|');
@@ -228,8 +238,10 @@ class TripPageState extends State<TripPage> {
     }
 
     TextStyle normal = TextStyle(fontSize: tripFontSize);
-    TextStyle underl =
-        TextStyle(fontSize: tripFontSize, decoration: TextDecoration.underline);
+    TextStyle underl = TextStyle(
+      fontSize: tripFontSize,
+      decoration: TextDecoration.underline,
+    );
 
     if (stationId == thisSId) {
       normal = underl;
@@ -248,12 +260,12 @@ class TripPageState extends State<TripPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           ListTile(
-              title: Text(thisSName + "  " + quay, style: normal),
-              subtitle: Text(AnAb, style: TextStyle(fontSize: tripFontSizeS)),
-              onTap: () {
-                oneStation(
-                    thisSId, thisSloid, thisSName, thisATime1, thisDTime1);
-              }),
+            title: Text(thisSName + "  " + quay, style: normal),
+            subtitle: Text(AnAb, style: TextStyle(fontSize: tripFontSizeS)),
+            onTap: () {
+              oneStation(thisSId, thisSloid, thisSName, thisATime1, thisDTime1);
+            },
+          ),
         ],
       ),
     );
@@ -261,9 +273,7 @@ class TripPageState extends State<TripPage> {
 
   @override
   void initState() {
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-    ]);
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
     super.initState();
   }
@@ -287,8 +297,6 @@ class TripPageState extends State<TripPage> {
     inArgs = (isett.arguments) as List;
 
     if (inArgsNotDone) {
-//      print("inArgs in trip " + inArgs.toString() + "\n");
-
       startArgs = fillArgs(7, inArgs);
       statsArgs = fillArgs(7, inArgs);
       stopArgs = fillArgs(12, inArgs);
@@ -348,56 +356,57 @@ class TripPageState extends State<TripPage> {
     }
 
     return MaterialApp(
-        home: Scaffold(
-      backgroundColor: Colors.teal[50],
-      appBar: AppBar(
-        title: Text(titleText, style: TextStyle(fontSize: tripFontSizeT)),
-        backgroundColor: tColor,
-      ),
-      body: ListView.builder(
-        itemCount: tripLength,
-        itemBuilder: (context, index) => mkCard(index),
-      ),
-      bottomNavigationBar: BottomAppBar(
-        color: Colors.teal[400],
-        height: 70.0,
-        child: Row(
-          children: <Widget>[
-            IconButton(
-              icon: Icon(Icons.west, size: tripIconSize),
-              color: Colors.lightGreenAccent,
-              padding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
-              onPressed: () {
-                go_stops();
-              },
-            ),
-            IconButton(
-              icon: Icon(Icons.trip_origin, size: tripIconSize),
-              color: Colors.black,
-              padding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
-              onPressed: () {
-                go_start();
-              },
-            ),
-            IconButton(
-              icon: Icon(Icons.store, size: tripIconSize),
-              color: Colors.black,
-              padding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
-              onPressed: () {
-                go_stations();
-              },
-            ),
-            IconButton(
-              icon: Icon(Icons.departure_board, size: tripIconSize),
-              color: Colors.black,
-              padding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
-              onPressed: () {
-                go_stops();
-              },
-            ),
-          ],
+      home: Scaffold(
+        backgroundColor: Colors.teal[50],
+        appBar: AppBar(
+          title: Text(titleText, style: TextStyle(fontSize: tripFontSizeT)),
+          backgroundColor: tColor,
+        ),
+        body: ListView.builder(
+          itemCount: tripLength,
+          itemBuilder: (context, index) => mkCard(index),
+        ),
+        bottomNavigationBar: BottomAppBar(
+          color: Colors.teal[400],
+          height: 70.0,
+          child: Row(
+            children: <Widget>[
+              IconButton(
+                icon: Icon(Icons.west, size: tripIconSize),
+                color: Colors.lightGreenAccent,
+                padding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
+                onPressed: () {
+                  go_stops();
+                },
+              ),
+              IconButton(
+                icon: Icon(Icons.trip_origin, size: tripIconSize),
+                color: Colors.black,
+                padding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
+                onPressed: () {
+                  go_start();
+                },
+              ),
+              IconButton(
+                icon: Icon(Icons.store, size: tripIconSize),
+                color: Colors.black,
+                padding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
+                onPressed: () {
+                  go_stations();
+                },
+              ),
+              IconButton(
+                icon: Icon(Icons.departure_board, size: tripIconSize),
+                color: Colors.black,
+                padding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
+                onPressed: () {
+                  go_stops();
+                },
+              ),
+            ],
+          ),
         ),
       ),
-    ));
+    );
   }
 }

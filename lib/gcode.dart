@@ -9,19 +9,7 @@ import 'ors_key.dart';
 import 'def_coords.dart';
 
 Future<List<double>> myLocationF() async {
-//  double fLatitude = 46.777;
-//  fLatitude = 47.36652;
-//  double fLongitude = 10.1481;
-//  fLongitude = 8.54095;
-
   List<double> defCoord = [defLatitude, defLongitude];
-
-// Platform.isAndroid
-// Platform.isFuchsia
-// Platform.isIOS
-// Platform.isLinux
-// Platform.isMacOS
-// Platform.isWindows
 
   if (Platform.isLinux) {
     return defCoord;
@@ -74,7 +62,12 @@ Future<String> geoCodesFT(double llat, double llong) async {
 }
 
 Future<String> geoCodesF(
-    double llat, double llong, String lats, bool aNF, String nAdr) async {
+  double llat,
+  double llong,
+  String lats,
+  bool aNF,
+  String nAdr,
+) async {
   if (aNF) {
     if (lats.contains("latitude")) {
       return ("no address");
@@ -91,7 +84,10 @@ Future<String> geoCodesF(
 }
 
 Future<String> fetchGCode(
-    OpenRouteService client, double startLat, double startLng) async {
+  OpenRouteService client,
+  double startLat,
+  double startLng,
+) async {
   List<String> gLayers = ["address"];
 
   double circleRadius = 1.0;
@@ -100,12 +96,17 @@ Future<String> fetchGCode(
   String myAddress = "";
   String sPcode = "";
 
-  ORSCoordinate startCoord =
-      ORSCoordinate(latitude: startLat, longitude: startLng);
+  ORSCoordinate startCoord = ORSCoordinate(
+    latitude: startLat,
+    longitude: startLng,
+  );
 
   try {
     final GeoJsonFeatureCollection gcode = await client.geocodeReverseGet(
-        point: startCoord, boundaryCircleRadius: circleRadius, layers: gLayers);
+      point: startCoord,
+      boundaryCircleRadius: circleRadius,
+      layers: gLayers,
+    );
 
     sName = gcode.features[0].properties["name"].toString() + " - ";
 

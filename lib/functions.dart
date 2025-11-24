@@ -45,7 +45,7 @@ List<String> localTime() {
     lYear,
     lMinute,
     lHour,
-    sNowLoc
+    sNowLoc,
   ];
 
   return nowDT;
@@ -86,7 +86,7 @@ List<String> nTime(String nUtc) {
     lYear,
     lMinute,
     lHour,
-    sNowLoc
+    sNowLoc,
   ];
 
   return nowDT;

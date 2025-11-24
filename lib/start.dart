@@ -63,7 +63,7 @@ class StartPageState extends State<StartPage> {
     DropdownMenuEntry(value: '5', label: '5'),
     DropdownMenuEntry(value: '10', label: '10'),
     DropdownMenuEntry(value: '15', label: '15'),
-    DropdownMenuEntry(value: '20', label: '20')
+    DropdownMenuEntry(value: '20', label: '20'),
   ];
 
   final List<DropdownMenuEntry> statsList = [
@@ -73,7 +73,7 @@ class StartPageState extends State<StartPage> {
     DropdownMenuEntry(value: '20', label: '20'),
     DropdownMenuEntry(value: '25', label: '25'),
     DropdownMenuEntry(value: '30', label: '30'),
-    DropdownMenuEntry(value: '35', label: '35')
+    DropdownMenuEntry(value: '35', label: '35'),
   ];
 
   final List<DropdownMenuEntry> stopsList = [
@@ -82,7 +82,7 @@ class StartPageState extends State<StartPage> {
     DropdownMenuEntry(value: '15', label: '15'),
     DropdownMenuEntry(value: '20', label: '20'),
     DropdownMenuEntry(value: '25', label: '25'),
-    DropdownMenuEntry(value: '30', label: '30')
+    DropdownMenuEntry(value: '30', label: '30'),
   ];
 
   void startLoc() async {
@@ -100,7 +100,12 @@ class StartPageState extends State<StartPage> {
   void geoCodes(double startLat, double startLong) async {
     if (addressNotFound) {
       startAddress = await geoCodesF(
-          startLat, startLong, startLats, addressNotFound, startAddress);
+        startLat,
+        startLong,
+        startLats,
+        addressNotFound,
+        startAddress,
+      );
 
       if (startAddress.contains("no address")) {
         addressNotFound = true;
@@ -122,7 +127,7 @@ class StartPageState extends State<StartPage> {
       radius,
       numStats,
       numStops,
-      startAddress
+      startAddress,
     ];
 
     return Args;
@@ -151,7 +156,7 @@ class StartPageState extends State<StartPage> {
       radius,
       numStats,
       numStops,
-      startAddress
+      startAddress,
     ];
 
     notResetted = false;
@@ -258,9 +263,7 @@ class StartPageState extends State<StartPage> {
 
   @override
   void initState() {
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-    ]);
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
     super.initState();
 
@@ -304,8 +307,6 @@ class StartPageState extends State<StartPage> {
 
         if (inArgsNotDone) {
           if (inArgs.length > 0) {
-//            print("inArgs in start " + inArgs.toString() + "\n");
-
             if (inArgs.length == 9) {
               startLat = double.parse(inArgs[7]);
               startLong = double.parse(inArgs[8]);
@@ -349,8 +350,8 @@ class StartPageState extends State<StartPage> {
       theme: ThemeData(
         menuTheme: MenuThemeData(
           style: MenuStyle(
-              backgroundColor:
-                  WidgetStatePropertyAll<Color>(Colors.teal.shade50)),
+            backgroundColor: WidgetStatePropertyAll<Color>(Colors.teal.shade50),
+          ),
         ),
       ),
       home: Scaffold(
@@ -359,109 +360,141 @@ class StartPageState extends State<StartPage> {
           title: Text("Fahrplan", style: TextStyle(fontSize: startFontSizeT)),
           backgroundColor: Colors.teal[400],
         ),
-        body: Column(children: <Widget>[
-          Card(
-            color: Colors.teal[200],
-            child: Column(
+        body: Column(
+          children: <Widget>[
+            Card(
+              color: Colors.teal[200],
+              child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   ListTile(
-                    title: Text(startAddress,
-                        style: TextStyle(fontSize: startFontSize)),
-                    subtitle: Text(startLats + " N  " + startLongs + " E",
-                        style: TextStyle(fontSize: startFontSize)),
+                    title: Text(
+                      startAddress,
+                      style: TextStyle(fontSize: startFontSize),
+                    ),
+                    subtitle: Text(
+                      startLats + " N  " + startLongs + " E",
+                      style: TextStyle(fontSize: startFontSize),
+                    ),
                   ),
-                ]),
-          ),
-          Card(
-            color: Colors.teal[100],
-            child: ListTile(
-              title: Text("  " + tDay + '.' + tMonth + '.' + tYear,
-                  style: TextStyle(fontSize: startFontSize)),
-              leading: OutlinedButton(
+                ],
+              ),
+            ),
+            Card(
+              color: Colors.teal[100],
+              child: ListTile(
+                title: Text(
+                  "  " + tDay + '.' + tMonth + '.' + tYear,
+                  style: TextStyle(fontSize: startFontSize),
+                ),
+                leading: OutlinedButton(
                   onPressed: () {
-                    DatePicker.showDatePicker(context,
-                        showTitleActions: true,
-                        minTime: DateTime(2025, 1, 1),
-                        maxTime: DateTime(2030, 12, 31),
-                        onConfirm: (datePicked) {
-                      workDate(datePicked);
-                    }, currentTime: nowLocal, locale: LocaleType.de);
+                    DatePicker.showDatePicker(
+                      context,
+                      showTitleActions: true,
+                      minTime: DateTime(2025, 1, 1),
+                      maxTime: DateTime(2030, 12, 31),
+                      onConfirm: (datePicked) {
+                        workDate(datePicked);
+                      },
+                      currentTime: nowLocal,
+                      locale: LocaleType.de,
+                    );
                   },
                   child: Text(
                     'Datum',
                     style: TextStyle(
-                        fontSize: startFontSize, color: Colors.grey[700]),
-                  )),
+                      fontSize: startFontSize,
+                      color: Colors.grey[700],
+                    ),
+                  ),
+                ),
+              ),
             ),
-          ),
-          Card(
-            color: Colors.teal[100],
-            child: ListTile(
-              title: Text("   " + tHour + ":" + tMinute,
-                  style: TextStyle(fontSize: startFontSize)),
-              leading: OutlinedButton(
+            Card(
+              color: Colors.teal[100],
+              child: ListTile(
+                title: Text(
+                  "   " + tHour + ":" + tMinute,
+                  style: TextStyle(fontSize: startFontSize),
+                ),
+                leading: OutlinedButton(
                   onPressed: () {
-                    DatePicker.showTimePicker(context,
-                        showTitleActions: true,
-                        showSecondsColumn: false, onConfirm: (timePicked) {
-                      workTime(timePicked);
-                    }, currentTime: nowLocal, locale: LocaleType.de);
+                    DatePicker.showTimePicker(
+                      context,
+                      showTitleActions: true,
+                      showSecondsColumn: false,
+                      onConfirm: (timePicked) {
+                        workTime(timePicked);
+                      },
+                      currentTime: nowLocal,
+                      locale: LocaleType.de,
+                    );
                   },
                   child: Text(
                     'Zeit',
                     style: TextStyle(
-                        fontSize: startFontSize, color: Colors.grey[700]),
-                  )),
-            ),
-          ),
-          Card(
-            color: Colors.teal[100],
-            child: ListTile(
-              title: Text("Suchradius [km]",
-                  style: TextStyle(fontSize: startFontSize)),
-              leading: DropdownMenu(
-                initialSelection: radius,
-                controller: radController,
-                onSelected: (value) {
-                  nRadSelected(value);
-                },
-                dropdownMenuEntries: radList,
+                      fontSize: startFontSize,
+                      color: Colors.grey[700],
+                    ),
+                  ),
+                ),
               ),
             ),
-          ),
-          Card(
-            color: Colors.teal[100],
-            child: ListTile(
-              title: Text("Anzahl Stationen",
-                  style: TextStyle(fontSize: startFontSize)),
-              leading: DropdownMenu(
-                initialSelection: numStats,
-                controller: statsController,
-                onSelected: (value) {
-                  nStatsSelected(value);
-                },
-                dropdownMenuEntries: statsList,
+            Card(
+              color: Colors.teal[100],
+              child: ListTile(
+                title: Text(
+                  "Suchradius [km]",
+                  style: TextStyle(fontSize: startFontSize),
+                ),
+                leading: DropdownMenu(
+                  initialSelection: radius,
+                  controller: radController,
+                  onSelected: (value) {
+                    nRadSelected(value);
+                  },
+                  dropdownMenuEntries: radList,
+                ),
               ),
             ),
-          ),
-          Card(
-            color: Colors.teal[100],
-            child: ListTile(
-              title: Text("Anzahl Abfahrten / Ankünfte",
-                  style: TextStyle(fontSize: startFontSize)),
-              leading: DropdownMenu(
-                initialSelection: numStops,
-                controller: stopsController,
-                onSelected: (value) {
-                  nStopsSelected(value);
-                },
-                dropdownMenuEntries: stopsList,
+            Card(
+              color: Colors.teal[100],
+              child: ListTile(
+                title: Text(
+                  "Anzahl Stationen",
+                  style: TextStyle(fontSize: startFontSize),
+                ),
+                leading: DropdownMenu(
+                  initialSelection: numStats,
+                  controller: statsController,
+                  onSelected: (value) {
+                    nStatsSelected(value);
+                  },
+                  dropdownMenuEntries: statsList,
+                ),
               ),
             ),
-          ),
-        ]),
+            Card(
+              color: Colors.teal[100],
+              child: ListTile(
+                title: Text(
+                  "Anzahl Abfahrten / Ankünfte",
+                  style: TextStyle(fontSize: startFontSize),
+                ),
+                leading: DropdownMenu(
+                  initialSelection: numStops,
+                  controller: stopsController,
+                  onSelected: (value) {
+                    nStopsSelected(value);
+                  },
+                  dropdownMenuEntries: stopsList,
+                ),
+              ),
+            ),
+          ],
+        ),
         bottomNavigationBar: BottomAppBar(
           color: Colors.teal[400],
           height: 70.0,
