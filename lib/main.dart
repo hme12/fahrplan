@@ -46,8 +46,8 @@ class MyFahrplanApp extends StatelessWidget {
             color: Colors.black,
           ),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(snackBorderRadius)),
-          ),
+              borderRadius:
+                  BorderRadius.all(Radius.circular(snackBorderRadius))),
           behavior: SnackBarBehavior.floating,
           elevation: 10.0,
         ),

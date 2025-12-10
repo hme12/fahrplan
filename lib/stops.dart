@@ -71,12 +71,7 @@ class StopsPageState extends State<StopsPage> {
   void geoCodes(double stLat, double stLong) async {
     if (addressNotFound) {
       stationAddress = await geoCodesF(
-        stLat,
-        stLong,
-        stationLats,
-        addressNotFound,
-        stationAddress,
-      );
+          stLat, stLong, stationLats, addressNotFound, stationAddress);
 
       if (stationAddress.contains("no address")) {
         addressNotFound = true;
@@ -143,6 +138,7 @@ class StopsPageState extends State<StopsPage> {
     String thisStart = thisStopList[7];
     String thisEnd = thisStopList[9];
     String thisPtMode = thisStopList[10];
+//    String thisTrain = thisStopList[11];
     String thisTrainName = thisStopList[12];
     String thisQuayNumber = thisStopList[13];
     String origDest = "Abfahrt nach \n" + thisEnd;
@@ -211,15 +207,13 @@ class StopsPageState extends State<StopsPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           ListTile(
-            title: Text(thisTimeString + " " + origDest, style: titleStyle),
-            subtitle: Text(
-              quay + thisTrainName + "   " + thisStart + " - " + thisEnd,
-              style: TextStyle(fontSize: stopsFontSizeS),
-            ),
-            onTap: () {
-              go_tripinfo(thisJRef);
-            },
-          ),
+              title: Text(thisTimeString + " " + origDest, style: titleStyle),
+              subtitle: Text(
+                  quay + thisTrainName + "   " + thisStart + " - " + thisEnd,
+                  style: TextStyle(fontSize: stopsFontSizeS)),
+              onTap: () {
+                go_tripinfo(thisJRef);
+              }),
         ],
       ),
     );
@@ -227,7 +221,9 @@ class StopsPageState extends State<StopsPage> {
 
   @override
   void initState() {
-    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+    ]);
 
     super.initState();
   }
@@ -251,6 +247,8 @@ class StopsPageState extends State<StopsPage> {
     inArgs = (isett.arguments) as List;
 
     if (inArgsNotDone) {
+//      print("inArgs in stops " + inArgs.toString() + "\n");
+
       startArgs = fillArgs(7, inArgs);
       statsArgs = fillArgs(7, inArgs);
       orsArgs = inArgs.toList();
@@ -278,11 +276,8 @@ class StopsPageState extends State<StopsPage> {
         int stArrMin = int.parse(stArrList[1]);
         int stArrSec = int.parse(stArrList[2]);
 
-        arrDur = Duration(
-          hours: stArrHour,
-          minutes: stArrMin,
-          seconds: stArrSec,
-        );
+        arrDur =
+            Duration(hours: stArrHour, minutes: stArrMin, seconds: stArrSec);
       }
 
       thistUtcd = requestUtc.replaceAll("T", " ");
@@ -312,60 +307,57 @@ class StopsPageState extends State<StopsPage> {
     geoCodes(double.parse(stationLats), double.parse(stationLongs));
 
     return MaterialApp(
-      home: Scaffold(
-        backgroundColor: Colors.teal[50],
-        appBar: AppBar(
-          title: Text(
-            thistDate + " " + stationName,
-            style: TextStyle(fontSize: stopsFontSizeT),
-          ),
-          backgroundColor: Colors.teal[400],
-        ),
-        body: ListView.builder(
-          itemCount: stopsLength,
-          itemBuilder: (context, index) => mkCard(index),
-        ),
-        bottomNavigationBar: BottomAppBar(
-          color: Colors.teal[400],
-          height: 70.0,
-          child: Row(
-            children: <Widget>[
-              IconButton(
-                icon: Icon(Icons.west, size: stopsIconSize),
-                color: Colors.lightGreenAccent,
-                padding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
-                onPressed: () {
-                  go_stations();
-                },
-              ),
-              IconButton(
-                icon: Icon(Icons.trip_origin, size: stopsIconSize),
-                color: Colors.black,
-                padding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
-                onPressed: () {
-                  go_start();
-                },
-              ),
-              IconButton(
-                icon: Icon(Icons.store, size: stopsIconSize),
-                color: Colors.black,
-                padding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
-                onPressed: () {
-                  go_stations();
-                },
-              ),
-              IconButton(
-                icon: Icon(Icons.map, size: stopsIconSize),
-                color: Colors.black,
-                padding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
-                onPressed: () {
-                  go_map();
-                },
-              ),
-            ],
-          ),
+        home: Scaffold(
+      backgroundColor: Colors.teal[50],
+      appBar: AppBar(
+        title: Text(thistDate + " " + stationName,
+            style: TextStyle(fontSize: stopsFontSizeT)),
+        backgroundColor: Colors.teal[400],
+      ),
+      body: ListView.builder(
+        itemCount: stopsLength,
+        itemBuilder: (context, index) => mkCard(index),
+      ),
+      bottomNavigationBar: BottomAppBar(
+        color: Colors.teal[400],
+        height: 70.0,
+        child: Row(
+          children: <Widget>[
+            IconButton(
+              icon: Icon(Icons.west, size: stopsIconSize),
+              color: Colors.lightGreenAccent,
+              padding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
+              onPressed: () {
+                go_stations();
+              },
+            ),
+            IconButton(
+              icon: Icon(Icons.trip_origin, size: stopsIconSize),
+              color: Colors.black,
+              padding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
+              onPressed: () {
+                go_start();
+              },
+            ),
+            IconButton(
+              icon: Icon(Icons.store, size: stopsIconSize),
+              color: Colors.black,
+              padding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
+              onPressed: () {
+                go_stations();
+              },
+            ),
+            IconButton(
+              icon: Icon(Icons.map, size: stopsIconSize),
+              color: Colors.black,
+              padding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
+              onPressed: () {
+                go_map();
+              },
+            ),
+          ],
         ),
       ),
-    );
+    ));
   }
 }

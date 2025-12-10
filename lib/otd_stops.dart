@@ -9,10 +9,7 @@ import './functions.dart';
 import 'dart:collection';
 
 String myStopsRequestString(
-  String requestTime,
-  String numStops,
-  String stationId,
-) {
+    String requestTime, String numStops, String stationId) {
   String sRTime = requestTime;
 
   String rref = 'He';
@@ -49,8 +46,7 @@ String myStopsRequestString(
   String req12 =
       '</UseRealtimeData> </Params> </OJPStopEventRequest> </siri:ServiceRequest> </OJPRequest> </OJP>';
 
-  String request =
-      req1 +
+  String request = req1 +
       requestTime +
       req2 +
       rref +
@@ -78,10 +74,7 @@ String myStopsRequestString(
 }
 
 Future<List> myStopsRequestF(
-  String requestTime,
-  String numStops,
-  String stationId,
-) async {
+    String requestTime, String numStops, String stationId) async {
   String StopMode = 'Abfahrt';
 
   final url = Uri.parse('https://api.opentransportdata.swiss/ojp20');
@@ -97,6 +90,7 @@ Future<List> myStopsRequestF(
   var stopsResponseBody = utf8.decode(stopsResponseBytes);
 
   final stopsResponseXml = XmlDocument.parse(stopsResponseBody);
+//  print (stopsResponseXml.toString());
 
   final allStops = stopsResponseXml.findAllElements('StopEventResult');
 
@@ -107,6 +101,8 @@ Future<List> myStopsRequestF(
 
   for (var oneStop in allStops) {
     String oneStopString = oneStop.toString();
+
+//    print (oneStopString);
 
     final JourneyRef = oneStop.findAllElements('JourneyRef');
     String JourneyRefText = myInnerText(JourneyRef);
@@ -143,9 +139,8 @@ Future<List> myStopsRequestF(
     String OriginTextTextk = myInnerText(OriginText);
     String OriginTextText = OriginTextTextk.replaceAll(",", "");
 
-    final DestinationStopPointRef = oneStop.findAllElements(
-      'DestinationStopPointRef',
-    );
+    final DestinationStopPointRef =
+        oneStop.findAllElements('DestinationStopPointRef');
     String DestinationStopPointRefText = myInnerText(DestinationStopPointRef);
 
     final DestinationText = oneStop.findAllElements('DestinationText');
@@ -176,8 +171,7 @@ Future<List> myStopsRequestF(
       stopTimes[STtTT] = JourneyRefText;
     }
 
-    theStop[JourneyRefText] =
-        JourneyRefText +
+    theStop[JourneyRefText] = JourneyRefText +
         "|" +
         StopPointRefText +
         "|" +
