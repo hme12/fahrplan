@@ -6,13 +6,8 @@ import 'dart:core';
 import './otd_header.dart';
 import './functions.dart';
 
-String myStationsRequestString(
-  String requestTime,
-  String requestLat,
-  String requestLong,
-  String radius,
-  String numResults,
-) {
+String myStationsRequestString(String requestTime, String requestLat,
+    String requestLong, String radius, String numResults) {
   String sRTime = requestTime;
 
   String exclude = 'true';
@@ -47,8 +42,7 @@ String myStationsRequestString(
   String r11 =
       '</PtMode> </PtModes></Restrictions> </OJPLocationInformationRequest> </siri:ServiceRequest> </OJPRequest> </OJP>';
 
-  String request =
-      r01 +
+  String request = r01 +
       requestTime +
       r02 +
       requestor +
@@ -74,30 +68,17 @@ String myStationsRequestString(
   return request;
 }
 
-Future<List> myStationsRequestF(
-  String reqTime,
-  String reqLat,
-  String reqLong,
-  String radius,
-  String numStats,
-) async {
+Future<List> myStationsRequestF(String reqTime, String reqLat, String reqLong,
+    String radius, String numStats) async {
   final url = Uri.parse('https://api.opentransportdata.swiss/ojp20');
 
   Map<String, String> header = myHeader();
 
-  String stationsRequest = myStationsRequestString(
-    reqTime,
-    reqLat,
-    reqLong,
-    radius,
-    numStats,
-  );
+  String stationsRequest =
+      myStationsRequestString(reqTime, reqLat, reqLong, radius, numStats);
 
-  var stationsResponse = await http.post(
-    url,
-    headers: header,
-    body: stationsRequest,
-  );
+  var stationsResponse =
+      await http.post(url, headers: header, body: stationsRequest);
 
   final List<int> stationsResponseBytes = stationsResponse.bodyBytes;
 
@@ -114,8 +95,20 @@ Future<List> myStationsRequestF(
     final stopPlaceRef = oneStation.findAllElements('StopPlaceRef');
     String stopPlaceRefText = myInnerText(stopPlaceRef);
 
+//    final privCode = oneStation.findAllElements('PrivateCode');
+//    String privCodeText = myInnerText(privCode);
+
+//    final topoRef = oneStation.findAllElements('TopographicPlaceRef');
+//    String topoRefText = myInnerText(topoRef);
+
     final stopPlaceName = oneStation.findAllElements('StopPlaceName');
     String stopPlaceNameText = myInnerText(stopPlaceName);
+
+//    final stopName = oneStation.findAllElements('Name');
+//    String stopNameText = myInnerText(stopName);
+
+//    final geoPos = oneStation.findAllElements('GeoPosition');
+//    String geoPosText = myInnerText(geoPos);
 
     final geoLong = oneStation.findAllElements('siri:Longitude');
     String geoLongText = myInnerText(geoLong);
@@ -126,8 +119,17 @@ Future<List> myStationsRequestF(
     double thereLat = double.parse(geoLatText);
     double thereLong = double.parse(geoLongText);
 
+//    final compl = oneStation.findAllElements('Complete');
+//    String complText = myInnerText(compl);
+
+//    final prob = oneStation.findAllElements('Probability');
+//    String probText = myInnerText(prob);
+
     final ptMode = oneStation.findAllElements('PtMode');
     String ptModeText = myInnerText(ptMode);
+
+//    final subMode = oneStation.findAllElements('siri:BusSubmode');
+//    String subModeText = myInnerText(subMode);
 
     List<double> geoThere = [thereLat, thereLong];
 
@@ -138,8 +140,7 @@ Future<List> myStationsRequestF(
 
     int dist = myDistance(geoStart, geoThere);
 
-    theStation[stopPlaceRefText] =
-        stopPlaceRefText +
+    theStation[stopPlaceRefText] = stopPlaceRefText +
         "|" +
         stopPlaceNameText +
         "|" +

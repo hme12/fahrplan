@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'dart:core';
 
 import './otd_header.dart';
+import './otd_formation.dart';
 import './functions.dart';
 
 String myTripRequestString(String requestTime, String jRef, String opDay) {
@@ -29,8 +30,7 @@ String myTripRequestString(String requestTime, String jRef, String opDay) {
   String req7 =
       '</OperatingDayRef> </OJPTripInfoRequest> </siri:ServiceRequest> </OJPRequest> </OJP>';
 
-  String request =
-      req1 +
+  String request = req1 +
       requestTime +
       req2 +
       rref +
@@ -48,15 +48,16 @@ String myTripRequestString(String requestTime, String jRef, String opDay) {
 }
 
 Future<List> myTripRequestF(
-  String requestTime,
-  String jRef,
-  String opDay,
-) async {
+    String requestTime, String jRef, String opDay) async {
   String thisDTimeString0 = "";
   String thisDTimeString1 = "";
 
   String thisATimeString0 = "";
   String thisATimeString1 = "";
+
+  var theFormation = [];
+  var theFormationMap = {};
+  bool gotFormation = false;
 
   final url = Uri.parse('https://api.opentransportdata.swiss/ojp20');
 
@@ -66,16 +67,42 @@ Future<List> myTripRequestF(
 
   var tripResponse = await http.post(url, headers: header, body: tripRequest);
 
+  // print (tripResponse.toString());
+
   final List<int> tripResponseBytes = tripResponse.bodyBytes;
 
   var pTripResponseBody = utf8.decode(tripResponseBytes);
   var oTripResponseBody = utf8.decode(tripResponseBytes);
+
+  // print (oTripResponseBody.toString());
 
   final pTripResponseXml = XmlDocument.parse(pTripResponseBody);
   final oTripResponseXml = XmlDocument.parse(oTripResponseBody);
 
   final prevCalls = pTripResponseXml.findAllElements('PreviousCall');
   final onwCalls = oTripResponseXml.findAllElements('OnwardCall');
+  final tripService = oTripResponseXml.findAllElements('Service');
+
+  String tripServiceStr = tripService.toString();
+//  print (tripServiceStr);
+  final tripServices = XmlDocument.parse(tripServiceStr);
+  final trainNumber = tripServices.findAllElements('TrainNumber');
+//  print (trainNumber.toString());
+  String trainNumberText = myInnerText(trainNumber);
+  // print(trainNumberText + " " + jRef);
+
+  theFormation = await myFormationRequestF(jRef, trainNumberText, opDay);
+
+//  print (theFormation.toString());
+
+  String theFormationNumber = theFormation[0];
+
+  if (theFormationNumber != "0") {
+    theFormationMap = theFormation[1];
+    gotFormation = true;
+  }
+
+//  print (gotFormation.toString());
 
   List<String> allCalls = [];
 
@@ -95,6 +122,8 @@ Future<List> myTripRequestF(
   var theCall = {};
 
   String PrevOnwText = "";
+
+  theCalls.add(trainNumberText);
 
   for (var oneCallS in allCalls) {
     final oneCall = XmlDocument.parse(oneCallS);
@@ -161,8 +190,7 @@ Future<List> myTripRequestF(
       StopPointRefText = StopPointRefText0;
     }
 
-    theCall[jRef + StopPointRefText] =
-        StopPointRefText +
+    theCall[jRef + StopPointRefText] = StopPointRefText +
         "|" +
         StopPointNameText +
         "|" +
@@ -179,9 +207,37 @@ Future<List> myTripRequestF(
         PrevOnwText +
         "|" +
         StopPointRefText0;
+
+//    print (StopPointNameText);
+//    print (gotFormation.toString());
+
+    if (gotFormation) {
+      if (theFormationMap.containsKey(jRef + StopPointRefText)) {
+        List<String> thisFormation =
+            theFormationMap[jRef + StopPointRefText].split("|");
+        theCall[jRef + StopPointRefText] = theCall[jRef + StopPointRefText] +
+            "|" +
+            thisFormation[2] +
+            "|" +
+            thisFormation[3] +
+            "|" +
+            thisFormation[4];
+      } else {
+        theCall[jRef + StopPointRefText] =
+            theCall[jRef + StopPointRefText] + "|-" + "|-" + "|-";
+//        print (theCall[jRef + StopPointRefText]);
+      }
+    } else {
+      theCall[jRef + StopPointRefText] =
+          theCall[jRef + StopPointRefText] + "|-" + "|-" + "|-";
+    }
   }
 
   theCalls.add(theCall);
+
+//  print(" - - - - -");
+//  print(theCalls.toString());
+//  print("+++++++++++++++++++++++++");
 
   return theCalls;
 }

@@ -45,13 +45,14 @@ List<String> localTime() {
     lYear,
     lMinute,
     lHour,
-    sNowLoc,
+    sNowLoc
   ];
 
   return nowDT;
 }
 
 List<String> nTime(String nUtc) {
+//  print (nUtc);
   String sNUtc = nUtc.replaceFirst('T', ' ');
   var nReqUtc = DateTime.parse(sNUtc);
 
@@ -59,6 +60,7 @@ List<String> nTime(String nUtc) {
   String sNowLoc = nReqLoc.toString();
 
   String requestTime = nUtc;
+//  print (requestTime);
 
   final timeOffset = nReqLoc.timeZoneOffset.toString();
   List<String> tOffs = timeOffset.split(':');
@@ -86,8 +88,10 @@ List<String> nTime(String nUtc) {
     lYear,
     lMinute,
     lHour,
-    sNowLoc,
+    sNowLoc
   ];
+
+//  print (nowDT.toString());
 
   return nowDT;
 }
@@ -217,4 +221,93 @@ List<String> ETString(String tTTime, String tETime, String tArr) {
   retString.add(late);
 
   return (retString);
+}
+
+String cleanFormation(String formation) {
+  String form_01 = formation;
+
+//  print (form_01);
+
+  String pLeft = RegExp.escape('(');
+  String pRight = RegExp.escape(')');
+
+  String form_02 = form_01.replaceAll(RegExp('@'), ' @');
+  String form_03 = form_02.replaceAll(RegExp('BHP'), '');
+  String form_04 = form_03.replaceAll(RegExp('BZ'), '');
+  String form_05 = form_04.replaceAll(RegExp('FZ'), '');
+  String form_06 = form_05.replaceAll(RegExp('KW'), '');
+  String form_07 = form_06.replaceAll(RegExp('NF'), '');
+  String form_08 = form_07.replaceAll(RegExp('VH'), '');
+  String form_09 = form_08.replaceAll(RegExp('VR'), '');
+  String form_10 = form_09.replaceAll(RegExp('FA'), '');
+  String form_11 = form_10.replaceAll(RegExp('LK'), 'L');
+  String form_12 = form_11.replaceAll(RegExp('WR'), '');
+  String form_13 = form_12.replaceAll(RegExp('W1'), '1');
+  String form_14 = form_13.replaceAll(RegExp('W2'), '2');
+  String form_22 = form_14.replaceAll(RegExp(r':(\d+)'), '');
+  String form_23 = form_22.replaceAll(RegExp('%'), '');
+
+  String form_15 = form_23.replaceAll(RegExp('#'), '');
+  String form_16 = form_15.replaceAll(RegExp(';'), '');
+  String form_17 = form_16.replaceAll(RegExp(','), ' ');
+  String form_18 = form_17.replaceAll(RegExp(pLeft), '( ');
+  String form_19 = form_18.replaceAll(RegExp(pRight), ' )');
+  String form_20 = form_19.replaceAll(RegExp(' F'), '');
+  String form_21 = form_20.trimLeft();
+
+//  print (form_16);
+
+//  print ("\n");
+
+  return (form_21);
+}
+
+String wEvu (String jRef) {
+ List<String> jRefItems = jRef.split(":");
+  String jEvu = jRefItems[3];
+
+  String evu = "nA";
+
+  if (jEvu.endsWith("015")) {
+    evu = "BLSP";
+  }
+
+  if (jEvu.endsWith("001")) {
+    evu = "SBBP";
+  }
+
+  if (jEvu.endsWith("012")) {
+    evu = "MBC";
+  }
+
+  if (jEvu.endsWith("049")) {
+    evu = "OeBB";
+  }
+
+  if (jEvu.endsWith("053")) {
+    evu = "RhB";
+  }
+
+  if (jEvu.endsWith("061")) {
+    evu = "SOB";
+  }
+
+  if (jEvu.endsWith("046")) {
+    evu = "THURBO";
+  }
+
+  if (jEvu.endsWith("034")) {
+    evu = "TPF";
+  }
+
+  if (jEvu.endsWith("025")) {
+    evu = "TRN";
+  }
+
+  if (jEvu.endsWith("064")) {
+    evu = "ZB";
+  }
+
+  return (evu);
+
 }

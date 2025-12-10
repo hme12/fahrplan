@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import 'dart:io' show Platform;
+
 import './functions.dart';
 import './gcode.dart';
 import './otd_trips.dart';
@@ -23,6 +25,8 @@ class TripPageState extends State<TripPage> {
   String thistUtcd = " ";
   String thistLoc = " ";
   String thistDate = " ";
+  String tripTrainNumber = ".";
+  String thisEvu = "";
 
   String requestUtc = "";
   String startLats = "no latitude";
@@ -94,23 +98,13 @@ class TripPageState extends State<TripPage> {
     Navigator.pushNamed(context, newroute, arguments: stopArgs);
   }
 
-  void oneStation(
-    String fSId,
-    String fSLId,
-    String fSName,
-    String fATime1,
-    String fDTime1,
-  ) {
+  void oneStation(String fSId, String fSLId, String fSName, String fATime1,
+      String fDTime1) {
     myOneStationRequest(requestUtc, fSId, fSName, fATime1, fDTime1);
   }
 
-  void myOneStationRequest(
-    String ftUtc,
-    String fstId,
-    String fstName,
-    String fATime1,
-    String fDTime1,
-  ) async {
+  void myOneStationRequest(String ftUtc, String fstId, String fstName,
+      String fATime1, String fDTime1) async {
     TheOneStation = await myOneStationRequestF(ftUtc, fstId, fstName);
 
     List<String> TheOneStationList = TheOneStation.split('|');
@@ -145,7 +139,12 @@ class TripPageState extends State<TripPage> {
     if (TheTrip.length < 1) {
       TheTrip = await myTripRequestF(ftUtc, fJRef, fOpDay);
 
-      TheTripMap = TheTrip[0];
+      tripTrainNumber = TheTrip[0];
+      TheTripMap = TheTrip[1];
+
+//      print (TheTripMap.toString());
+
+//      TheTripMap = TheTrip[0];
 
       setState(() {});
     }
@@ -165,6 +164,13 @@ class TripPageState extends State<TripPage> {
     String thisQuayNumber = thisTripList[6];
     String thisPrevOnw = thisTripList[7];
     String thisSloid = thisTripList[8];
+    String thisForm = thisTripList[9];
+    String thisClForm = thisTripList[10];
+    String thisEvu = thisTripList[11];
+
+    if (thisEvu == "-") {
+      thisEvu = "";
+    }
 
     String thisATimeString = "";
     List<String> thisATimes = [];
@@ -199,7 +205,16 @@ class TripPageState extends State<TripPage> {
       Nl = "\n";
     }
 
-    AnAb = An + Nl + Ab;
+
+    if (thisClForm != "-") {
+      if (Platform.isLinux) {
+        AnAb = An + Nl + Ab + "\n" + thisForm + "\n" + thisClForm;
+      } else {
+        AnAb = An + Nl + Ab + "\n" + thisClForm;
+      }
+    } else {
+      AnAb = An + Nl + Ab;
+    }
 
     Color? cColor = Colors.blueGrey[100];
 
@@ -238,10 +253,8 @@ class TripPageState extends State<TripPage> {
     }
 
     TextStyle normal = TextStyle(fontSize: tripFontSize);
-    TextStyle underl = TextStyle(
-      fontSize: tripFontSize,
-      decoration: TextDecoration.underline,
-    );
+    TextStyle underl =
+        TextStyle(fontSize: tripFontSize, decoration: TextDecoration.underline);
 
     if (stationId == thisSId) {
       normal = underl;
@@ -260,12 +273,12 @@ class TripPageState extends State<TripPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           ListTile(
-            title: Text(thisSName + "  " + quay, style: normal),
-            subtitle: Text(AnAb, style: TextStyle(fontSize: tripFontSizeS)),
-            onTap: () {
-              oneStation(thisSId, thisSloid, thisSName, thisATime1, thisDTime1);
-            },
-          ),
+              title: Text(thisSName + "  " + quay, style: normal),
+              subtitle: Text(AnAb, style: TextStyle(fontSize: tripFontSizeS)),
+              onTap: () {
+                oneStation(
+                    thisSId, thisSloid, thisSName, thisATime1, thisDTime1);
+              }),
         ],
       ),
     );
@@ -273,7 +286,9 @@ class TripPageState extends State<TripPage> {
 
   @override
   void initState() {
-    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+    ]);
 
     super.initState();
   }
@@ -297,6 +312,8 @@ class TripPageState extends State<TripPage> {
     inArgs = (isett.arguments) as List;
 
     if (inArgsNotDone) {
+//      print("inArgs in trip " + inArgs.toString() + "\n");
+
       startArgs = fillArgs(7, inArgs);
       statsArgs = fillArgs(7, inArgs);
       stopArgs = fillArgs(12, inArgs);
@@ -341,9 +358,32 @@ class TripPageState extends State<TripPage> {
     }
 
     myTripRequest(requestUtc, journeyRef, journeyOpDay);
+    String titleEvu = wEvu (journeyRef);
+
+    if (titleEvu == "nA") {
+      titleEvu = "";
+    }
+
+    if (titleEvu == "SBBP") {
+      titleEvu = "SBB";
+    }
+
+    if (titleEvu == "BLSP") {
+      titleEvu = "BLS";
+    }
+
     tripLength = TheTripMap.length;
     var tripKeys = TheTripMap.keys;
-    String titleText = journeyOpDay + "  " + journeyOrig + " -  " + journeyDest;
+    String titleText = journeyOpDay +
+        "  " +
+        journeyOrig +
+        " -  " +
+        journeyDest +
+        " (" +
+        titleEvu +
+        " " +
+        tripTrainNumber +
+        ")";
     Color? tColor = Colors.teal[400];
 
     if (tripLength < 1) {
@@ -356,57 +396,56 @@ class TripPageState extends State<TripPage> {
     }
 
     return MaterialApp(
-      home: Scaffold(
-        backgroundColor: Colors.teal[50],
-        appBar: AppBar(
-          title: Text(titleText, style: TextStyle(fontSize: tripFontSizeT)),
-          backgroundColor: tColor,
-        ),
-        body: ListView.builder(
-          itemCount: tripLength,
-          itemBuilder: (context, index) => mkCard(index),
-        ),
-        bottomNavigationBar: BottomAppBar(
-          color: Colors.teal[400],
-          height: 70.0,
-          child: Row(
-            children: <Widget>[
-              IconButton(
-                icon: Icon(Icons.west, size: tripIconSize),
-                color: Colors.lightGreenAccent,
-                padding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
-                onPressed: () {
-                  go_stops();
-                },
-              ),
-              IconButton(
-                icon: Icon(Icons.trip_origin, size: tripIconSize),
-                color: Colors.black,
-                padding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
-                onPressed: () {
-                  go_start();
-                },
-              ),
-              IconButton(
-                icon: Icon(Icons.store, size: tripIconSize),
-                color: Colors.black,
-                padding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
-                onPressed: () {
-                  go_stations();
-                },
-              ),
-              IconButton(
-                icon: Icon(Icons.departure_board, size: tripIconSize),
-                color: Colors.black,
-                padding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
-                onPressed: () {
-                  go_stops();
-                },
-              ),
-            ],
-          ),
+        home: Scaffold(
+      backgroundColor: Colors.teal[50],
+      appBar: AppBar(
+        title: Text(titleText, style: TextStyle(fontSize: tripFontSizeT)),
+        backgroundColor: tColor,
+      ),
+      body: ListView.builder(
+        itemCount: tripLength,
+        itemBuilder: (context, index) => mkCard(index),
+      ),
+      bottomNavigationBar: BottomAppBar(
+        color: Colors.teal[400],
+        height: 70.0,
+        child: Row(
+          children: <Widget>[
+            IconButton(
+              icon: Icon(Icons.west, size: tripIconSize),
+              color: Colors.lightGreenAccent,
+              padding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
+              onPressed: () {
+                go_stops();
+              },
+            ),
+            IconButton(
+              icon: Icon(Icons.trip_origin, size: tripIconSize),
+              color: Colors.black,
+              padding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
+              onPressed: () {
+                go_start();
+              },
+            ),
+            IconButton(
+              icon: Icon(Icons.store, size: tripIconSize),
+              color: Colors.black,
+              padding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
+              onPressed: () {
+                go_stations();
+              },
+            ),
+            IconButton(
+              icon: Icon(Icons.departure_board, size: tripIconSize),
+              color: Colors.black,
+              padding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
+              onPressed: () {
+                go_stops();
+              },
+            ),
+          ],
         ),
       ),
-    );
+    ));
   }
 }
