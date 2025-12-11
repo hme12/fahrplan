@@ -18,8 +18,7 @@ class OstMapPage extends StatefulWidget {
 
 class OstMapPageState extends State<OstMapPage> {
   String appTitle = 'Umgebung';
-  String userAgent = 'fahrplan.em';
-//  String urlTemplate = "https://tile.openstreetmap.org/{z}/{x}/{y}.png";
+  String userAgent = 'my.agent';
 
   List<dynamic> inArgs = [];
   List<dynamic> statsArgs = [];
@@ -38,8 +37,9 @@ class OstMapPageState extends State<OstMapPage> {
   List<LatLng> rPoints = [];
   List<LatLng> sPoints = [];
   List<LatLng> corns = [];
-  CameraFit iCorns =
-      CameraFit.coordinates(coordinates: [LatLng(0.0, 0.0), LatLng(0.0, 0.0)]);
+  CameraFit iCorns = CameraFit.coordinates(
+    coordinates: [LatLng(0.0, 0.0), LatLng(0.0, 0.0)],
+  );
 
   double osFontSize = 20;
   double osFontSizeT = 20 * 1.2;
@@ -53,9 +53,7 @@ class OstMapPageState extends State<OstMapPage> {
 
   @override
   void initState() {
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-    ]);
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     super.initState();
   }
 
@@ -74,16 +72,15 @@ class OstMapPageState extends State<OstMapPage> {
     double sWidth = osFontSizeS * 25;
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        action: SnackBarAction(
-          label: 'dismiss',
-          onPressed: () {},
+        action: SnackBarAction(label: 'dismiss', onPressed: () {}),
+        content: Text(
+          snackText,
+          style: TextStyle(
+            fontSize: osFontSize,
+            backgroundColor: Colors.grey[100]!,
+            color: Colors.black,
+          ),
         ),
-        content: Text(snackText,
-            style: TextStyle(
-              fontSize: osFontSize,
-              backgroundColor: Colors.grey[100]!,
-              color: Colors.black,
-            )),
         duration: const Duration(milliseconds: 19500),
         width: sWidth,
         padding: const EdgeInsets.all(15),
@@ -159,8 +156,6 @@ class OstMapPageState extends State<OstMapPage> {
 
     if (inArgsNotDone) {
       final List inArgs = (isett.arguments) as List;
-
-//      print ("inArgs in stmap " + inArgs.toString() + "\n");
 
       statsArgs = fillArgs(7, inArgs);
 
@@ -252,11 +247,7 @@ class OstMapPageState extends State<OstMapPage> {
     }
 
     var circles = rPoints.map((latlng) {
-      return CircleMarker(
-        radius: 8.0,
-        point: latlng,
-        color: Colors.pinkAccent,
-      );
+      return CircleMarker(radius: 8.0, point: latlng, color: Colors.pinkAccent);
     }).toList();
 
     var scircles = sPoints.map((latlng) {
@@ -270,53 +261,48 @@ class OstMapPageState extends State<OstMapPage> {
     return Scaffold(
       backgroundColor: Colors.teal[50],
       appBar: AppBar(
-          title: Text(appTitle, style: TextStyle(fontSize: osFontSizeT)),
-          automaticallyImplyLeading: false,
-          backgroundColor: Colors.teal[400],
-          actions: <Widget>[
-            IconButton(
-              icon: const Icon(
-                Icons.volcano_outlined,
-              ),
-              onPressed: () {
-                showSwiss();
-              },
-            ),
-            IconButton(
-              icon: const Icon(
-                Icons.map_outlined,
-              ),
-              onPressed: () {
-                showOsm();
-              },
-            ),
-            IconButton(
-              icon: const Icon(
-                Icons.language_outlined,
-              ),
-              onPressed: () {
-                showEsri();
-              },
-            ),
-          ]),
+        title: Text(appTitle, style: TextStyle(fontSize: osFontSizeT)),
+        automaticallyImplyLeading: false,
+        backgroundColor: Colors.teal[400],
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(Icons.volcano_outlined),
+            onPressed: () {
+              showSwiss();
+            },
+          ),
+          IconButton(
+            icon: const Icon(Icons.map_outlined),
+            onPressed: () {
+              showOsm();
+            },
+          ),
+          IconButton(
+            icon: const Icon(Icons.language_outlined),
+            onPressed: () {
+              showEsri();
+            },
+          ),
+        ],
+      ),
       body: Padding(
         padding: const EdgeInsets.all(5.0),
         child: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.all(1.0),
-            ),
+            Padding(padding: const EdgeInsets.all(1.0)),
             Flexible(
               child: FlutterMap(
                 mapController: myMapController,
                 options: MapOptions(
                   initialCameraFit: iCorns,
                   interactionOptions: const InteractionOptions(
-                      flags: InteractiveFlag.all &
-                          ~InteractiveFlag.rotate &
-                          ~InteractiveFlag.pinchMove &
-                          ~InteractiveFlag.doubleTapDragZoom &
-                          ~InteractiveFlag.flingAnimation),
+                    flags:
+                        InteractiveFlag.all &
+                        ~InteractiveFlag.rotate &
+                        ~InteractiveFlag.pinchMove &
+                        ~InteractiveFlag.doubleTapDragZoom &
+                        ~InteractiveFlag.flingAnimation,
+                  ),
                 ),
                 children: [
                   TileLayer(
@@ -336,23 +322,25 @@ class OstMapPageState extends State<OstMapPage> {
         direction: Axis.vertical,
         children: <Widget>[
           Container(
-              margin: const EdgeInsets.all(5),
-              child: FloatingActionButton(
-                onPressed: zoomIn,
-                backgroundColor: Colors.blueAccent,
-                heroTag: null,
-                mini: fMini,
-                child: Icon(Icons.zoom_out_map_outlined, size: osIconSize),
-              )),
+            margin: const EdgeInsets.all(5),
+            child: FloatingActionButton(
+              onPressed: zoomIn,
+              backgroundColor: Colors.blueAccent,
+              heroTag: null,
+              mini: fMini,
+              child: Icon(Icons.zoom_out_map_outlined, size: osIconSize),
+            ),
+          ),
           Container(
-              margin: const EdgeInsets.all(5),
-              child: FloatingActionButton(
-                onPressed: zoomOut,
-                backgroundColor: Colors.blueAccent,
-                heroTag: null,
-                mini: fMini,
-                child: Icon(Icons.zoom_in_map_outlined, size: osIconSize),
-              )),
+            margin: const EdgeInsets.all(5),
+            child: FloatingActionButton(
+              onPressed: zoomOut,
+              backgroundColor: Colors.blueAccent,
+              heroTag: null,
+              mini: fMini,
+              child: Icon(Icons.zoom_in_map_outlined, size: osIconSize),
+            ),
+          ),
         ],
       ),
       bottomNavigationBar: BottomAppBar(

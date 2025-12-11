@@ -29,25 +29,28 @@ String myFormationRequestString(String evu, String trainNumber, String opDay) {
 }
 
 Future<List> myFormationRequestF(
-    String jRef, String trainNumber, String opDay) async {
+  String jRef,
+  String trainNumber,
+  String opDay,
+) async {
   List<String> jRefItems = jRef.split(":");
   String jEvu = jRefItems[3];
 
-  String evu = wEvu (jRef);
+  String evu = wEvu(jRef);
 
-// evu:
-//
-// BLSP    015
-// SBBP    001
-// MBC     012
-// OeBB    049
-// RhB     053
-// SOB     061
-// THURBO  046
-// TPF     034
-// TRN     025
-// VDDB
-// ZB      064
+  // evu:
+  //
+  // BLSP    015
+  // SBBP    001
+  // MBC     012
+  // OeBB    049
+  // RhB     053
+  // SOB     061
+  // THURBO  046
+  // TPF     034
+  // TRN     025
+  // VDDB
+  // ZB      064
 
   Map<String, String> header = myFormHeader();
 
@@ -55,13 +58,9 @@ Future<List> myFormationRequestF(
 
   final requestUrl = Uri.parse(formationRequest);
 
-//  print (requestUrl.toString());
-
   var formationResponse = await http.get(requestUrl, headers: header);
 
   int formationResponseStatus = formationResponse.statusCode;
-
-//  print("Code " + formationResponseStatus.toString());
 
   var theForms = [];
 
@@ -86,16 +85,6 @@ Future<List> myFormationRequestF(
 
     var formationResponseJson = jsonDecode(formationResponseBody);
 
-//    print (formationResponseJson.toString());
-
-//  for (var fKey in formationResponseJson.keys) {
-//    print (fKey.toString());
-//    print (" ");
-//    print (formationResponseJson[fKey].toString());
-//    print ("--------------");
-//    print (" ");
-//  }
-
     var theForm = {};
 
     var g1 = formationResponseJson["formationsAtScheduledStops"];
@@ -105,19 +94,16 @@ Future<List> myFormationRequestF(
 
       var g8 = g5["stopPoint"];
       String g9 = g8["uic"].toString();
-//    print (g9.toString());
       String g10 = g8["name"];
-//    print (g10.toString());
 
       var g6 = g4["formationShort"];
-//      print (g6.toString());
       var g7 = g6["formationShortString"];
-//      print (g7.toString());
 
       if (g7 != null) {
         String clForm = cleanFormation(g7);
 
-        theForm[jRef + g9] = g9 + "|" + g10 + "|<- " + g7 + "|<- " + clForm + "|" + evu;
+        theForm[jRef + g9] =
+            g9 + "|" + g10 + "|<- " + g7 + "|<- " + clForm + "|" + evu;
       } else {
         theForm[jRef + g9] = g9 + "|" + g10 + "|<- " + "|<- " + "|" + evu;
       }
@@ -125,8 +111,6 @@ Future<List> myFormationRequestF(
 
     theForms.add(theForm);
 
-//    print(theForms.toString());
-//    print(" ----------------------- ");
   } else {
     theForms.add("0");
   }

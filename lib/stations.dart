@@ -69,11 +69,21 @@ class StationsPageState extends State<StationsPage> {
     Navigator.pushNamed(context, newroute, arguments: stmapArgs);
   }
 
-  void myStationsRequest(String frequestUtc, String fLatitude,
-      String fLongitude, String fRadius, String fNumStats) async {
+  void myStationsRequest(
+    String frequestUtc,
+    String fLatitude,
+    String fLongitude,
+    String fRadius,
+    String fNumStats,
+  ) async {
     if (TheStations.length < 1) {
       TheStations = await myStationsRequestF(
-          frequestUtc, fLatitude, fLongitude, fRadius, fNumStats);
+        frequestUtc,
+        fLatitude,
+        fLongitude,
+        fRadius,
+        fNumStats,
+      );
 
       TheStationsMap = TheStations[0];
 
@@ -125,16 +135,14 @@ class StationsPageState extends State<StationsPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           ListTile(
-            title: Text(thisLocation,
-                style: TextStyle(fontSize: stationsFontSize)),
+            title: Text(
+              thisLocation,
+              style: TextStyle(fontSize: stationsFontSize),
+            ),
             subtitle: Text(
-                thisMode +
-                    "   " +
-                    thisDistance +
-                    " m   " +
-                    thisDistMin +
-                    " min",
-                style: TextStyle(fontSize: stationsFontSize)),
+              thisMode + "   " + thisDistance + " m   " + thisDistMin + " min",
+              style: TextStyle(fontSize: stationsFontSize),
+            ),
             onTap: () {
               go_stops(thisId);
             },
@@ -146,9 +154,7 @@ class StationsPageState extends State<StationsPage> {
 
   @override
   void initState() {
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-    ]);
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
     super.initState();
   }
@@ -172,7 +178,6 @@ class StationsPageState extends State<StationsPage> {
     inArgs = (isett.arguments) as List;
 
     if (inArgsNotDone) {
-//      print("inArgs in stations " + inArgs.toString() + "\n");
 
       startArgs = inArgs.toList();
       stopsArgs = inArgs.toList();
@@ -207,49 +212,52 @@ class StationsPageState extends State<StationsPage> {
     }
 
     return MaterialApp(
-        home: Scaffold(
-      backgroundColor: Colors.teal[50],
-      appBar: AppBar(
-        title:
-            Text(startAddress, style: TextStyle(fontSize: stationsFontSizeT)),
-        backgroundColor: Colors.teal[400],
-      ),
-      body: ListView.builder(
-        itemCount: stationsLength,
-        itemBuilder: (context, index) => mkCard(index),
-      ),
-      bottomNavigationBar: BottomAppBar(
-        color: Colors.teal[400],
-        height: 70.0,
-        child: Row(
-          children: <Widget>[
-            IconButton(
-              icon: Icon(Icons.west, size: stationsIconSize),
-              color: Colors.lightGreenAccent,
-              padding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
-              onPressed: () {
-                go_start();
-              },
-            ),
-            IconButton(
-              icon: Icon(Icons.trip_origin, size: stationsIconSize),
-              color: Colors.black,
-              padding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
-              onPressed: () {
-                go_start();
-              },
-            ),
-            IconButton(
-              icon: Icon(Icons.map_rounded, size: stationsIconSize),
-              color: Colors.black,
-              padding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
-              onPressed: () {
-                go_stmap();
-              },
-            ),
-          ],
+      home: Scaffold(
+        backgroundColor: Colors.teal[50],
+        appBar: AppBar(
+          title: Text(
+            startAddress,
+            style: TextStyle(fontSize: stationsFontSizeT),
+          ),
+          backgroundColor: Colors.teal[400],
+        ),
+        body: ListView.builder(
+          itemCount: stationsLength,
+          itemBuilder: (context, index) => mkCard(index),
+        ),
+        bottomNavigationBar: BottomAppBar(
+          color: Colors.teal[400],
+          height: 70.0,
+          child: Row(
+            children: <Widget>[
+              IconButton(
+                icon: Icon(Icons.west, size: stationsIconSize),
+                color: Colors.lightGreenAccent,
+                padding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
+                onPressed: () {
+                  go_start();
+                },
+              ),
+              IconButton(
+                icon: Icon(Icons.trip_origin, size: stationsIconSize),
+                color: Colors.black,
+                padding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
+                onPressed: () {
+                  go_start();
+                },
+              ),
+              IconButton(
+                icon: Icon(Icons.map_rounded, size: stationsIconSize),
+                color: Colors.black,
+                padding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
+                onPressed: () {
+                  go_stmap();
+                },
+              ),
+            ],
+          ),
         ),
       ),
-    ));
+    );
   }
 }

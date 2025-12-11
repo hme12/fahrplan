@@ -18,9 +18,7 @@ class OsMapPage extends StatefulWidget {
 
 class OsMapPageState extends State<OsMapPage> {
   String appTitle = 'Start';
-  String userAgent = 'fahrplan.em';
-//  String urlTemplate = "https://tile.openstreetmap.org/{z}/{x}/{y}.png";
-//  String urlTemplate = "https://wmts.geo.admin.ch/1.0.0/ch.swisstopo.pixelkarte-farbe/default/current/3857/{z}/{x}/{y}.jpeg";
+  String userAgent = 'my.agent';
 
   List<dynamic> inArgs = [];
   List<dynamic> startArgs = [];
@@ -39,8 +37,9 @@ class OsMapPageState extends State<OsMapPage> {
 
   List<LatLng> rPoints = [];
   List<LatLng> corns = [];
-  CameraFit iCorns =
-      CameraFit.coordinates(coordinates: [LatLng(0.0, 0.0), LatLng(0.0, 0.0)]);
+  CameraFit iCorns = CameraFit.coordinates(
+    coordinates: [LatLng(0.0, 0.0), LatLng(0.0, 0.0)],
+  );
 
   double osFontSize = 20;
   double osFontSizeT = 20 * 1.2;
@@ -54,9 +53,7 @@ class OsMapPageState extends State<OsMapPage> {
 
   @override
   void initState() {
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-    ]);
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     super.initState();
   }
 
@@ -75,16 +72,15 @@ class OsMapPageState extends State<OsMapPage> {
     double sWidth = osFontSizeS * 25;
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        action: SnackBarAction(
-          label: 'dismiss',
-          onPressed: () {},
+        action: SnackBarAction(label: 'dismiss', onPressed: () {}),
+        content: Text(
+          snackText,
+          style: TextStyle(
+            fontSize: osFontSize,
+            backgroundColor: Colors.grey[100]!,
+            color: Colors.black,
+          ),
         ),
-        content: Text(snackText,
-            style: TextStyle(
-              fontSize: osFontSize,
-              backgroundColor: Colors.grey[100]!,
-              color: Colors.black,
-            )),
         duration: const Duration(milliseconds: 19500),
         width: sWidth,
         padding: const EdgeInsets.all(15),
@@ -153,10 +149,14 @@ class OsMapPageState extends State<OsMapPage> {
       rPoints.clear();
       rPoints.add(startLatLong);
 
-      LatLng corn1 =
-          LatLng(startLatLong.latitude - 0.01, startLatLong.longitude - 0.01);
-      LatLng corn2 =
-          LatLng(startLatLong.latitude + 0.01, startLatLong.longitude + 0.01);
+      LatLng corn1 = LatLng(
+        startLatLong.latitude - 0.01,
+        startLatLong.longitude - 0.01,
+      );
+      LatLng corn2 = LatLng(
+        startLatLong.latitude + 0.01,
+        startLatLong.longitude + 0.01,
+      );
 
       corns.add(corn1);
       corns.add(corn2);
@@ -165,7 +165,8 @@ class OsMapPageState extends State<OsMapPage> {
 
       bool fitted = myMapController.fitCamera(iCorns);
 
-      String snackPoint = "Lat. : " +
+      String snackPoint =
+          "Lat. : " +
           startLatLong.latitude.toStringAsFixed(6) +
           "\nLng. : " +
           startLatLong.longitude.toStringAsFixed(6);
@@ -182,7 +183,8 @@ class OsMapPageState extends State<OsMapPage> {
       rPoints.clear();
       rPoints.add(startLatLong);
 
-      String snackPoint = "Lat. : " +
+      String snackPoint =
+          "Lat. : " +
           startLatLong.latitude.toStringAsFixed(6) +
           "\nLng. : " +
           startLatLong.longitude.toStringAsFixed(6);
@@ -220,8 +222,6 @@ class OsMapPageState extends State<OsMapPage> {
     if (inArgsNotDone) {
       final List inArgs = (isett.arguments) as List;
 
-//      print ("inArgs in map " + inArgs.toString() + "\n");
-
       startArgs = fillArgs(7, inArgs);
 
       hereLats = inArgs[1];
@@ -244,10 +244,14 @@ class OsMapPageState extends State<OsMapPage> {
         rPoints.clear();
         rPoints.add(hereLatLong);
 
-        LatLng corn1 =
-            LatLng(hereLatLong.latitude - 0.01, hereLatLong.longitude - 0.01);
-        LatLng corn2 =
-            LatLng(hereLatLong.latitude + 0.01, hereLatLong.longitude + 0.01);
+        LatLng corn1 = LatLng(
+          hereLatLong.latitude - 0.01,
+          hereLatLong.longitude - 0.01,
+        );
+        LatLng corn2 = LatLng(
+          hereLatLong.latitude + 0.01,
+          hereLatLong.longitude + 0.01,
+        );
 
         corns.add(corn1);
         corns.add(corn2);
@@ -275,61 +279,54 @@ class OsMapPageState extends State<OsMapPage> {
     }
 
     var circles = rPoints.map((latlng) {
-      return CircleMarker(
-        radius: 8.0,
-        point: latlng,
-        color: Colors.pinkAccent,
-      );
+      return CircleMarker(radius: 8.0, point: latlng, color: Colors.pinkAccent);
     }).toList();
 
     return Scaffold(
       backgroundColor: Colors.teal[50],
       appBar: AppBar(
-          title: Text(appTitle, style: TextStyle(fontSize: osFontSizeT)),
-          automaticallyImplyLeading: false,
-          backgroundColor: Colors.teal[400],
-          actions: <Widget>[
-            IconButton(
-                icon: const Icon(
-                  Icons.volcano_outlined,
-                ),
-                onPressed: () {
-                  showSwiss();
-                }),
-            IconButton(
-              icon: const Icon(
-                Icons.map_outlined,
-              ),
-              onPressed: () {
-                showOsm();
-              },
-            ),
-            IconButton(
-                icon: const Icon(
-                  Icons.language_outlined,
-                ),
-                onPressed: () {
-                  showEsri();
-                })
-          ]),
+        title: Text(appTitle, style: TextStyle(fontSize: osFontSizeT)),
+        automaticallyImplyLeading: false,
+        backgroundColor: Colors.teal[400],
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(Icons.volcano_outlined),
+            onPressed: () {
+              showSwiss();
+            },
+          ),
+          IconButton(
+            icon: const Icon(Icons.map_outlined),
+            onPressed: () {
+              showOsm();
+            },
+          ),
+          IconButton(
+            icon: const Icon(Icons.language_outlined),
+            onPressed: () {
+              showEsri();
+            },
+          ),
+        ],
+      ),
       body: Padding(
         padding: const EdgeInsets.all(5.0),
         child: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.all(1.0),
-            ),
+            Padding(padding: const EdgeInsets.all(1.0)),
             Flexible(
               child: FlutterMap(
                 mapController: myMapController,
                 options: MapOptions(
                   initialCameraFit: iCorns,
                   interactionOptions: const InteractionOptions(
-                      flags: InteractiveFlag.all &
-                          ~InteractiveFlag.rotate &
-                          ~InteractiveFlag.pinchMove &
-                          ~InteractiveFlag.doubleTapDragZoom &
-                          ~InteractiveFlag.flingAnimation),
+                    flags:
+                        InteractiveFlag.all &
+                        ~InteractiveFlag.rotate &
+                        ~InteractiveFlag.pinchMove &
+                        ~InteractiveFlag.doubleTapDragZoom &
+                        ~InteractiveFlag.flingAnimation,
+                  ),
                   onTap: (tapPosition, point) {
                     mapTapped(tapPosition, point);
                   },
@@ -351,30 +348,32 @@ class OsMapPageState extends State<OsMapPage> {
         direction: Axis.vertical,
         children: <Widget>[
           Container(
-              margin: const EdgeInsets.all(5),
-              child: FloatingActionButton(
-                onPressed: zoomIn,
-                backgroundColor: Colors.blueAccent,
-                heroTag: null,
-                mini: fMini,
-                child: Icon(Icons.zoom_out_map_outlined, size: osIconSize),
-              )),
+            margin: const EdgeInsets.all(5),
+            child: FloatingActionButton(
+              onPressed: zoomIn,
+              backgroundColor: Colors.blueAccent,
+              heroTag: null,
+              mini: fMini,
+              child: Icon(Icons.zoom_out_map_outlined, size: osIconSize),
+            ),
+          ),
           Container(
-              margin: const EdgeInsets.all(5),
-              child: FloatingActionButton(
-                onPressed: zoomOut,
-                backgroundColor: Colors.blueAccent,
-                heroTag: null,
-                mini: fMini,
-                child: Icon(Icons.zoom_in_map_outlined, size: osIconSize),
-              )),
+            margin: const EdgeInsets.all(5),
+            child: FloatingActionButton(
+              onPressed: zoomOut,
+              backgroundColor: Colors.blueAccent,
+              heroTag: null,
+              mini: fMini,
+              child: Icon(Icons.zoom_in_map_outlined, size: osIconSize),
+            ),
+          ),
         ],
       ),
       bottomNavigationBar: BottomAppBar(
         color: Colors.teal[400],
         height: 70.0,
         child: Row(
-//          spacing: 15.0,
+          //          spacing: 15.0,
           children: <Widget>[
             IconButton(
               icon: Icon(Icons.west, size: osIconSize),

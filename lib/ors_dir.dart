@@ -1,7 +1,5 @@
 import 'dart:core';
 
-// import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -23,8 +21,7 @@ class OrsDirPage extends StatefulWidget {
 
 class OrsDirPageState extends State<OrsDirPage> {
   String appTitle = 'Weg';
-  String userAgent = 'fahrplan.em';
-//  String urlTemplate = "https://tile.openstreetmap.org/{z}/{x}/{y}.png";
+  String userAgent = 'my.agent';
 
   String dropDownProfile = "footWalking";
 
@@ -33,8 +30,9 @@ class OrsDirPageState extends State<OrsDirPage> {
   LatLng sPoint = LatLng(0.0, 0.0);
   LatLng ePoint = LatLng(0.0, 0.0);
   List<LatLng> corns = [];
-  CameraFit iCorns =
-      CameraFit.coordinates(coordinates: [LatLng(0.0, 0.0), LatLng(0.0, 0.0)]);
+  CameraFit iCorns = CameraFit.coordinates(
+    coordinates: [LatLng(0.0, 0.0), LatLng(0.0, 0.0)],
+  );
 
   List<dynamic> inArgs = [];
   List<dynamic> startArgs = [];
@@ -75,16 +73,14 @@ class OrsDirPageState extends State<OrsDirPage> {
     'cyclingElectric': 4,
     'footWalking': 5,
     'footHiking': 6,
-    'wheelchair': 7
+    'wheelchair': 7,
   };
 
   int nProf = 6;
 
   @override
   void initState() {
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-    ]);
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     super.initState();
   }
 
@@ -102,54 +98,69 @@ class OrsDirPageState extends State<OrsDirPage> {
   void fillDropItems() {
     dropItems.clear();
 
-    dropItems.add(DropdownMenuItem<String>(
-      value: 'drivingCar',
-      child: Text('Drive', style: TextStyle(fontSize: orsFontSizeS)),
-    ));
-    dropItems.add(DropdownMenuItem<String>(
-      value: 'drivingHgv',
-      child: Text('Heavy', style: TextStyle(fontSize: orsFontSizeS)),
-    ));
-    dropItems.add(DropdownMenuItem<String>(
-      value: 'cyclingRoad',
-      child: Text('Cycle', style: TextStyle(fontSize: orsFontSizeS)),
-    ));
-    dropItems.add(DropdownMenuItem<String>(
-      value: 'cyclingElectric',
-      child: Text('E-cycle', style: TextStyle(fontSize: orsFontSizeS)),
-    ));
-    dropItems.add(DropdownMenuItem<String>(
-      value: 'cyclingMountain',
-      child: Text('M-cycle', style: TextStyle(fontSize: orsFontSizeS)),
-    ));
-    dropItems.add(DropdownMenuItem<String>(
-      value: 'footHiking',
-      child: Text('Hike', style: TextStyle(fontSize: orsFontSizeS)),
-    ));
-    dropItems.add(DropdownMenuItem<String>(
-      value: 'footWalking',
-      child: Text('Walk', style: TextStyle(fontSize: orsFontSizeS)),
-    ));
-    dropItems.add(DropdownMenuItem<String>(
-      value: 'wheelchair',
-      child: Text('Wheel', style: TextStyle(fontSize: orsFontSizeS)),
-    ));
+    dropItems.add(
+      DropdownMenuItem<String>(
+        value: 'drivingCar',
+        child: Text('Drive', style: TextStyle(fontSize: orsFontSizeS)),
+      ),
+    );
+    dropItems.add(
+      DropdownMenuItem<String>(
+        value: 'drivingHgv',
+        child: Text('Heavy', style: TextStyle(fontSize: orsFontSizeS)),
+      ),
+    );
+    dropItems.add(
+      DropdownMenuItem<String>(
+        value: 'cyclingRoad',
+        child: Text('Cycle', style: TextStyle(fontSize: orsFontSizeS)),
+      ),
+    );
+    dropItems.add(
+      DropdownMenuItem<String>(
+        value: 'cyclingElectric',
+        child: Text('E-cycle', style: TextStyle(fontSize: orsFontSizeS)),
+      ),
+    );
+    dropItems.add(
+      DropdownMenuItem<String>(
+        value: 'cyclingMountain',
+        child: Text('M-cycle', style: TextStyle(fontSize: orsFontSizeS)),
+      ),
+    );
+    dropItems.add(
+      DropdownMenuItem<String>(
+        value: 'footHiking',
+        child: Text('Hike', style: TextStyle(fontSize: orsFontSizeS)),
+      ),
+    );
+    dropItems.add(
+      DropdownMenuItem<String>(
+        value: 'footWalking',
+        child: Text('Walk', style: TextStyle(fontSize: orsFontSizeS)),
+      ),
+    );
+    dropItems.add(
+      DropdownMenuItem<String>(
+        value: 'wheelchair',
+        child: Text('Wheel', style: TextStyle(fontSize: orsFontSizeS)),
+      ),
+    );
   }
 
   void doSnack(String snackText) {
     double sWidth = orsFontSizeS * 25;
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        action: SnackBarAction(
-          label: 'dismiss',
-          onPressed: () {},
+        action: SnackBarAction(label: 'dismiss', onPressed: () {}),
+        content: Text(
+          snackText,
+          style: TextStyle(
+            fontSize: orsFontSize,
+            backgroundColor: Colors.grey[100]!,
+            color: Colors.black,
+          ),
         ),
-        content: Text(snackText,
-            style: TextStyle(
-              fontSize: orsFontSize,
-              backgroundColor: Colors.grey[100]!,
-              color: Colors.black,
-            )),
         duration: const Duration(milliseconds: 19500),
         width: sWidth,
         padding: const EdgeInsets.all(15),
@@ -246,8 +257,10 @@ class OrsDirPageState extends State<OrsDirPage> {
   }
 
   OpenRouteService connectToORS(ORSProfile cProf) {
-    OpenRouteService nclient =
-        OpenRouteService(apiKey: orsKey, defaultProfile: cProf);
+    OpenRouteService nclient = OpenRouteService(
+      apiKey: orsKey,
+      defaultProfile: cProf,
+    );
 
     return (nclient);
   }
@@ -262,15 +275,19 @@ class OrsDirPageState extends State<OrsDirPage> {
     List<ORSCoordinate> waypoints = [];
 
     waypoints.add(
-        ORSCoordinate(latitude: sPoint.latitude, longitude: sPoint.longitude));
+      ORSCoordinate(latitude: sPoint.latitude, longitude: sPoint.longitude),
+    );
     waypoints.add(
-        ORSCoordinate(latitude: ePoint.latitude, longitude: ePoint.longitude));
+      ORSCoordinate(latitude: ePoint.latitude, longitude: ePoint.longitude),
+    );
 
     await fetchRoute(waypoints, mclient);
   }
 
   Future<void> fetchRoute(
-      List<ORSCoordinate> waypoints, OpenRouteService client) async {
+    List<ORSCoordinate> waypoints,
+    OpenRouteService client,
+  ) async {
     List<double> dsPoint = [sPoint.latitude, sPoint.longitude];
     List<double> dePoint = [ePoint.latitude, ePoint.longitude];
 
@@ -278,8 +295,8 @@ class OrsDirPageState extends State<OrsDirPage> {
 
     if (wayDist > 0) {
       try {
-        final List<DirectionRouteData> dirs =
-            await client.directionsMultiRouteDataPost(coordinates: waypoints);
+        final List<DirectionRouteData> dirs = await client
+            .directionsMultiRouteDataPost(coordinates: waypoints);
 
         Map dirMap = dirs[0].toJson();
 
@@ -336,7 +353,8 @@ class OrsDirPageState extends State<OrsDirPage> {
             myArrival = arrival(dirSumm['duration']);
           }
 
-          String desca = startAddress +
+          String desca =
+              startAddress +
               "\n -> \n" +
               stationAddress +
               "\n" +
@@ -457,8 +475,6 @@ class OrsDirPageState extends State<OrsDirPage> {
       if (isett.arguments != null) {
         final List inArgs = (isett.arguments) as List;
 
-//      print("inArgs in ors " + inArgs.toString() + "\n");
-
         stopsArgs = fillArgs(12, inArgs);
         statsArgs = fillArgs(7, inArgs);
         startArgs = fillArgs(7, inArgs);
@@ -520,108 +536,103 @@ class OrsDirPageState extends State<OrsDirPage> {
     fillDropItems();
 
     appTitle = 'Weg';
-//    urlTemplate = "https://tile.openstreetmap.org/{z}/{x}/{y}.png";
+    //    urlTemplate = "https://tile.openstreetmap.org/{z}/{x}/{y}.png";
 
     var circles = rPoints.map((latlng) {
-      return CircleMarker(
-        radius: 5.0,
-        point: latlng,
-        color: Colors.deepOrange,
-      );
+      return CircleMarker(radius: 5.0, point: latlng, color: Colors.deepOrange);
     }).toList();
 
-    circles.add(CircleMarker(
-      radius: 8.0,
-      point: sPoint,
-      color: Colors.transparent,
-      borderColor: Colors.green,
-      borderStrokeWidth: 4.0,
-    ));
+    circles.add(
+      CircleMarker(
+        radius: 8.0,
+        point: sPoint,
+        color: Colors.transparent,
+        borderColor: Colors.green,
+        borderStrokeWidth: 4.0,
+      ),
+    );
 
-    circles.add(CircleMarker(
-      radius: 8.0,
-      point: ePoint,
-      color: Colors.transparent,
-      borderColor: Colors.red,
-      borderStrokeWidth: 4.0,
-    ));
+    circles.add(
+      CircleMarker(
+        radius: 8.0,
+        point: ePoint,
+        color: Colors.transparent,
+        borderColor: Colors.red,
+        borderStrokeWidth: 4.0,
+      ),
+    );
 
     return Scaffold(
       backgroundColor: Colors.teal[50],
       appBar: AppBar(
-          title: Text(appTitle, style: TextStyle(fontSize: orsFontSizeT)),
-          automaticallyImplyLeading: false,
-          backgroundColor: Colors.teal[400],
-          actions: <Widget>[
-            DropdownButton<String>(
-              value: dropDownProfile,
-              icon: Icon(Icons.arrow_downward,
-                  color: Colors.black, size: orsIconSize),
-              iconEnabledColor: Colors.black,
-              elevation: 0,
-              style: TextStyle(fontSize: orsFontSize, color: Colors.black),
-              dropdownColor: Colors.teal[200],
-              underline: Container(
-                height: 2,
-                color: Colors.teal[800],
-              ),
-              onChanged: (String? newValue) {
-                setState(() {
-                  dropDownProfile = newValue!;
-                });
-              },
-              items: dropItems,
+        title: Text(appTitle, style: TextStyle(fontSize: orsFontSizeT)),
+        automaticallyImplyLeading: false,
+        backgroundColor: Colors.teal[400],
+        actions: <Widget>[
+          DropdownButton<String>(
+            value: dropDownProfile,
+            icon: Icon(
+              Icons.arrow_downward,
+              color: Colors.black,
+              size: orsIconSize,
             ),
-            IconButton(
-              padding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
-              onPressed: () {
-                doDir();
-              },
-              icon: Icon(Icons.route, size: orsIconSize, color: Colors.black),
-            ),
-            IconButton(
-              icon: const Icon(
-                Icons.volcano_outlined,
-              ),
-              onPressed: () {
-                showSwiss();
-              },
-            ),
-            IconButton(
-              icon: const Icon(
-                Icons.map_outlined,
-              ),
-              onPressed: () {
-                showOsm();
-              },
-            ),
-            IconButton(
-              icon: const Icon(
-                Icons.language_outlined,
-              ),
-              onPressed: () {
-                showEsri();
-              },
-            ),
-          ]),
+            iconEnabledColor: Colors.black,
+            elevation: 0,
+            style: TextStyle(fontSize: orsFontSize, color: Colors.black),
+            dropdownColor: Colors.teal[200],
+            underline: Container(height: 2, color: Colors.teal[800]),
+            onChanged: (String? newValue) {
+              setState(() {
+                dropDownProfile = newValue!;
+              });
+            },
+            items: dropItems,
+          ),
+          IconButton(
+            padding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
+            onPressed: () {
+              doDir();
+            },
+            icon: Icon(Icons.route, size: orsIconSize, color: Colors.black),
+          ),
+          IconButton(
+            icon: const Icon(Icons.volcano_outlined),
+            onPressed: () {
+              showSwiss();
+            },
+          ),
+          IconButton(
+            icon: const Icon(Icons.map_outlined),
+            onPressed: () {
+              showOsm();
+            },
+          ),
+          IconButton(
+            icon: const Icon(Icons.language_outlined),
+            onPressed: () {
+              showEsri();
+            },
+          ),
+        ],
+      ),
       body: Padding(
         padding: const EdgeInsets.all(5.0),
         child: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.all(1.0),
-            ),
+            Padding(padding: const EdgeInsets.all(1.0)),
             Flexible(
               child: FlutterMap(
                 mapController: myMapController,
                 options: MapOptions(
                   initialCameraFit: iCorns,
                   interactionOptions: const InteractionOptions(
-                      flags: InteractiveFlag.all &
-                          ~InteractiveFlag.rotate &
-                          ~InteractiveFlag.pinchMove &
-                          ~InteractiveFlag.doubleTapDragZoom &
-                          ~InteractiveFlag.flingAnimation),
+                    flags:
+                        InteractiveFlag.all &
+                        ~InteractiveFlag.rotate &
+                        ~InteractiveFlag.pinchMove &
+                        ~InteractiveFlag.doubleTapDragZoom &
+                        ~InteractiveFlag.flingAnimation,
+                  ),
                 ),
                 children: [
                   TileLayer(
@@ -649,23 +660,25 @@ class OrsDirPageState extends State<OrsDirPage> {
         direction: Axis.vertical,
         children: <Widget>[
           Container(
-              margin: const EdgeInsets.all(5),
-              child: FloatingActionButton(
-                onPressed: zoomIn,
-                backgroundColor: Colors.blueAccent,
-                heroTag: null,
-                mini: fMini,
-                child: Icon(Icons.zoom_out_map_outlined, size: orsIconSize),
-              )),
+            margin: const EdgeInsets.all(5),
+            child: FloatingActionButton(
+              onPressed: zoomIn,
+              backgroundColor: Colors.blueAccent,
+              heroTag: null,
+              mini: fMini,
+              child: Icon(Icons.zoom_out_map_outlined, size: orsIconSize),
+            ),
+          ),
           Container(
-              margin: const EdgeInsets.all(5),
-              child: FloatingActionButton(
-                onPressed: zoomOut,
-                backgroundColor: Colors.blueAccent,
-                heroTag: null,
-                mini: fMini,
-                child: Icon(Icons.zoom_in_map_outlined, size: orsIconSize),
-              )),
+            margin: const EdgeInsets.all(5),
+            child: FloatingActionButton(
+              onPressed: zoomOut,
+              backgroundColor: Colors.blueAccent,
+              heroTag: null,
+              mini: fMini,
+              child: Icon(Icons.zoom_in_map_outlined, size: orsIconSize),
+            ),
+          ),
         ],
       ),
       bottomNavigationBar: BottomAppBar(

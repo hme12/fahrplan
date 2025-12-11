@@ -7,7 +7,10 @@ import './otd_header.dart';
 import './functions.dart';
 
 String myOneStationRequestString(
-    String requestTime, String requestId, String requestName) {
+  String requestTime,
+  String requestId,
+  String requestName,
+) {
   String sRTime = requestTime;
 
   String requestor = 'He';
@@ -34,7 +37,8 @@ String myOneStationRequestString(
   String r10 =
       '</OJPLocationInformationRequest> </siri:ServiceRequest> </OJPRequest> </OJP>';
 
-  String request = r01 +
+  String request =
+      r01 +
       requestTime +
       r02 +
       requestor +
@@ -55,15 +59,21 @@ String myOneStationRequestString(
 }
 
 Future<String> myOneStationRequestF(
-    String reqTime, String reqId, String reqName) async {
+  String reqTime,
+  String reqId,
+  String reqName,
+) async {
   final url = Uri.parse('https://api.opentransportdata.swiss/ojp20');
 
   Map<String, String> header = myHeader();
 
   String stationsRequest = myOneStationRequestString(reqTime, reqId, reqName);
 
-  var stationsResponse =
-      await http.post(url, headers: header, body: stationsRequest);
+  var stationsResponse = await http.post(
+    url,
+    headers: header,
+    body: stationsRequest,
+  );
 
   final List<int> stationsResponseBytes = stationsResponse.bodyBytes;
 
@@ -82,20 +92,20 @@ Future<String> myOneStationRequestF(
     final stopPlaceRef = oneStation.findAllElements('StopPlaceRef');
     String stopPlaceRefText = myInnerText(stopPlaceRef);
 
-//    final privCode = oneStation.findAllElements('PrivateCode');
-//    String privCodeText = myInnerText(privCode);
+    //    final privCode = oneStation.findAllElements('PrivateCode');
+    //    String privCodeText = myInnerText(privCode);
 
-//    final topoRef = oneStation.findAllElements('TopographicPlaceRef');
-//    String topoRefText = myInnerText(topoRef);
+    //    final topoRef = oneStation.findAllElements('TopographicPlaceRef');
+    //    String topoRefText = myInnerText(topoRef);
 
     final stopPlaceName = oneStation.findAllElements('StopPlaceName');
     String stopPlaceNameText = myInnerText(stopPlaceName);
 
-//    final stopName = oneStation.findAllElements('Name');
-//    String stopNameText = myInnerText(stopName);
+    //    final stopName = oneStation.findAllElements('Name');
+    //    String stopNameText = myInnerText(stopName);
 
-//    final geoPos = oneStation.findAllElements('GeoPosition');
-//    String geoPosText = myInnerText(geoPos);
+    //    final geoPos = oneStation.findAllElements('GeoPosition');
+    //    String geoPosText = myInnerText(geoPos);
 
     final geoLong = oneStation.findAllElements('siri:Longitude');
     String geoLongText = myInnerText(geoLong);
@@ -103,22 +113,23 @@ Future<String> myOneStationRequestF(
     final geoLat = oneStation.findAllElements('siri:Latitude');
     String geoLatText = myInnerText(geoLat);
 
-//    final compl = oneStation.findAllElements('Complete');
-//    String complText = myInnerText(compl);
+    //    final compl = oneStation.findAllElements('Complete');
+    //    String complText = myInnerText(compl);
 
     final prob = oneStation.findAllElements('Probability');
     String probText = myInnerText(prob);
 
-//    final ptMode = oneStation.findAllElements('PtMode');
-//    String ptModeText = myInnerText(ptMode);
+    //    final ptMode = oneStation.findAllElements('PtMode');
+    //    String ptModeText = myInnerText(ptMode);
 
-//    final subMode = oneStation.findAllElements('siri:BusSubmode');
-//    String subModeText = myInnerText(subMode);
+    //    final subMode = oneStation.findAllElements('siri:BusSubmode');
+    //    String subModeText = myInnerText(subMode);
 
     double probability = double.parse(probText);
 
     if (probability > maxProb) {
-      theStationP = stopPlaceRefText +
+      theStationP =
+          stopPlaceRefText +
           "|" +
           stopPlaceNameText +
           "|" +
@@ -130,7 +141,8 @@ Future<String> myOneStationRequestF(
     }
 
     if (reqId == stopPlaceRefText) {
-      theStation = stopPlaceRefText +
+      theStation =
+          stopPlaceRefText +
           "|" +
           stopPlaceNameText +
           "|" +
