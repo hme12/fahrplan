@@ -30,7 +30,8 @@ String myTripRequestString(String requestTime, String jRef, String opDay) {
   String req7 =
       '</OperatingDayRef> </OJPTripInfoRequest> </siri:ServiceRequest> </OJPRequest> </OJP>';
 
-  String request = req1 +
+  String request =
+      req1 +
       requestTime +
       req2 +
       rref +
@@ -48,7 +49,10 @@ String myTripRequestString(String requestTime, String jRef, String opDay) {
 }
 
 Future<List> myTripRequestF(
-    String requestTime, String jRef, String opDay) async {
+  String requestTime,
+  String jRef,
+  String opDay,
+) async {
   String thisDTimeString0 = "";
   String thisDTimeString1 = "";
 
@@ -67,14 +71,10 @@ Future<List> myTripRequestF(
 
   var tripResponse = await http.post(url, headers: header, body: tripRequest);
 
-  // print (tripResponse.toString());
-
   final List<int> tripResponseBytes = tripResponse.bodyBytes;
 
   var pTripResponseBody = utf8.decode(tripResponseBytes);
   var oTripResponseBody = utf8.decode(tripResponseBytes);
-
-  // print (oTripResponseBody.toString());
 
   final pTripResponseXml = XmlDocument.parse(pTripResponseBody);
   final oTripResponseXml = XmlDocument.parse(oTripResponseBody);
@@ -84,16 +84,11 @@ Future<List> myTripRequestF(
   final tripService = oTripResponseXml.findAllElements('Service');
 
   String tripServiceStr = tripService.toString();
-//  print (tripServiceStr);
   final tripServices = XmlDocument.parse(tripServiceStr);
   final trainNumber = tripServices.findAllElements('TrainNumber');
-//  print (trainNumber.toString());
   String trainNumberText = myInnerText(trainNumber);
-  // print(trainNumberText + " " + jRef);
 
   theFormation = await myFormationRequestF(jRef, trainNumberText, opDay);
-
-//  print (theFormation.toString());
 
   String theFormationNumber = theFormation[0];
 
@@ -101,8 +96,6 @@ Future<List> myTripRequestF(
     theFormationMap = theFormation[1];
     gotFormation = true;
   }
-
-//  print (gotFormation.toString());
 
   List<String> allCalls = [];
 
@@ -190,7 +183,8 @@ Future<List> myTripRequestF(
       StopPointRefText = StopPointRefText0;
     }
 
-    theCall[jRef + StopPointRefText] = StopPointRefText +
+    theCall[jRef + StopPointRefText] =
+        StopPointRefText +
         "|" +
         StopPointNameText +
         "|" +
@@ -208,14 +202,12 @@ Future<List> myTripRequestF(
         "|" +
         StopPointRefText0;
 
-//    print (StopPointNameText);
-//    print (gotFormation.toString());
-
     if (gotFormation) {
       if (theFormationMap.containsKey(jRef + StopPointRefText)) {
-        List<String> thisFormation =
-            theFormationMap[jRef + StopPointRefText].split("|");
-        theCall[jRef + StopPointRefText] = theCall[jRef + StopPointRefText] +
+        List<String> thisFormation = theFormationMap[jRef + StopPointRefText]
+            .split("|");
+        theCall[jRef + StopPointRefText] =
+            theCall[jRef + StopPointRefText] +
             "|" +
             thisFormation[2] +
             "|" +
@@ -225,7 +217,6 @@ Future<List> myTripRequestF(
       } else {
         theCall[jRef + StopPointRefText] =
             theCall[jRef + StopPointRefText] + "|-" + "|-" + "|-";
-//        print (theCall[jRef + StopPointRefText]);
       }
     } else {
       theCall[jRef + StopPointRefText] =
@@ -234,10 +225,6 @@ Future<List> myTripRequestF(
   }
 
   theCalls.add(theCall);
-
-//  print(" - - - - -");
-//  print(theCalls.toString());
-//  print("+++++++++++++++++++++++++");
 
   return theCalls;
 }

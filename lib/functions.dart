@@ -45,14 +45,13 @@ List<String> localTime() {
     lYear,
     lMinute,
     lHour,
-    sNowLoc
+    sNowLoc,
   ];
 
   return nowDT;
 }
 
 List<String> nTime(String nUtc) {
-//  print (nUtc);
   String sNUtc = nUtc.replaceFirst('T', ' ');
   var nReqUtc = DateTime.parse(sNUtc);
 
@@ -60,7 +59,6 @@ List<String> nTime(String nUtc) {
   String sNowLoc = nReqLoc.toString();
 
   String requestTime = nUtc;
-//  print (requestTime);
 
   final timeOffset = nReqLoc.timeZoneOffset.toString();
   List<String> tOffs = timeOffset.split(':');
@@ -88,10 +86,8 @@ List<String> nTime(String nUtc) {
     lYear,
     lMinute,
     lHour,
-    sNowLoc
+    sNowLoc,
   ];
-
-//  print (nowDT.toString());
 
   return nowDT;
 }
@@ -226,8 +222,6 @@ List<String> ETString(String tTTime, String tETime, String tArr) {
 String cleanFormation(String formation) {
   String form_01 = formation;
 
-//  print (form_01);
-
   String pLeft = RegExp.escape('(');
   String pRight = RegExp.escape(')');
 
@@ -255,15 +249,11 @@ String cleanFormation(String formation) {
   String form_20 = form_19.replaceAll(RegExp(' F'), '');
   String form_21 = form_20.trimLeft();
 
-//  print (form_16);
-
-//  print ("\n");
-
   return (form_21);
 }
 
-String wEvu (String jRef) {
- List<String> jRefItems = jRef.split(":");
+String wEvu(String jRef) {
+  List<String> jRefItems = jRef.split(":");
   String jEvu = jRefItems[3];
 
   String evu = "nA";
@@ -309,5 +299,4 @@ String wEvu (String jRef) {
   }
 
   return (evu);
-
 }
