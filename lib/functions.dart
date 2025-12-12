@@ -258,43 +258,25 @@ String wEvu(String jRef) {
 
   String evu = "nA";
 
-  if (jEvu.endsWith("015")) {
-    evu = "BLSP";
-  }
-
-  if (jEvu.endsWith("001")) {
-    evu = "SBBP";
-  }
-
-  if (jEvu.endsWith("012")) {
-    evu = "MBC";
-  }
-
-  if (jEvu.endsWith("049")) {
-    evu = "OeBB";
-  }
-
   if (jEvu.endsWith("053")) {
     evu = "RhB";
-  }
-
-  if (jEvu.endsWith("061")) {
-    evu = "SOB";
-  }
-
-  if (jEvu.endsWith("046")) {
+  } else if (jEvu.endsWith("001")) {
+    evu = "SBBP";
+  } else if (jEvu.endsWith("046")) {
     evu = "THURBO";
-  }
-
-  if (jEvu.endsWith("034")) {
+  } else if (jEvu.endsWith("061")) {
+    evu = "SOB";
+  } else if (jEvu.endsWith("015")) {
+    evu = "BLSP";
+  } else if (jEvu.endsWith("012")) {
+    evu = "MBC";
+  } else if (jEvu.endsWith("049")) {
+    evu = "OeBB";
+  } else if (jEvu.endsWith("034")) {
     evu = "TPF";
-  }
-
-  if (jEvu.endsWith("025")) {
+  } else if (jEvu.endsWith("025")) {
     evu = "TRN";
-  }
-
-  if (jEvu.endsWith("064")) {
+  } else if (jEvu.endsWith("064")) {
     evu = "ZB";
   }
 

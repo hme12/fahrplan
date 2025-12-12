@@ -38,20 +38,9 @@ Future<List> myFormationRequestF(
 
   String evu = wEvu(jRef);
 
-  // evu:
-  //
-  // BLSP    015
-  // SBBP    001
-  // MBC     012
-  // OeBB    049
-  // RhB     053
-  // SOB     061
-  // THURBO  046
-  // TPF     034
-  // TRN     025
-  // VDDB
-  // ZB      064
+  var theForms = [];
 
+  if ((evu != "nA") && (evu != "RhB")) {
   Map<String, String> header = myFormHeader();
 
   String formationRequest = myFormationRequestString(evu, trainNumber, opDay);
@@ -61,20 +50,6 @@ Future<List> myFormationRequestF(
   var formationResponse = await http.get(requestUrl, headers: header);
 
   int formationResponseStatus = formationResponse.statusCode;
-
-  var theForms = [];
-
-  if (evu == "nA") {
-    evu = "-";
-  }
-
-  if (evu == "SBBP") {
-    evu = "SBB";
-  }
-
-  if (evu == "BLSP") {
-    evu = "BLS";
-  }
 
   if (formationResponseStatus == 200) {
     theForms.add(trainNumber);
@@ -102,15 +77,17 @@ Future<List> myFormationRequestF(
       if (g7 != null) {
         String clForm = cleanFormation(g7);
 
-        theForm[jRef + g9] =
-            g9 + "|" + g10 + "|<- " + g7 + "|<- " + clForm + "|" + evu;
+          theForm[jRef + g9] = g9 + "|" + g10 + "|<- " + g7 + "|<- " + clForm;
       } else {
-        theForm[jRef + g9] = g9 + "|" + g10 + "|<- " + "|<- " + "|" + evu;
+          theForm[jRef + g9] = g9 + "|" + g10 + "|<- " + "|<- ";
       }
     }
 
     theForms.add(theForm);
 
+    } else {
+      theForms.add("0");
+    }
   } else {
     theForms.add("0");
   }
