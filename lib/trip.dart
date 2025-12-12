@@ -26,7 +26,6 @@ class TripPageState extends State<TripPage> {
   String thistLoc = " ";
   String thistDate = " ";
   String tripTrainNumber = ".";
-  String thisEvu = "";
 
   String requestUtc = "";
   String startLats = "no latitude";
@@ -172,11 +171,6 @@ class TripPageState extends State<TripPage> {
     String thisSloid = thisTripList[8];
     String thisForm = thisTripList[9];
     String thisClForm = thisTripList[10];
-    String thisEvu = thisTripList[11];
-
-    if (thisEvu == "-") {
-      thisEvu = "";
-    }
 
     String thisATimeString = "";
     List<String> thisATimes = [];

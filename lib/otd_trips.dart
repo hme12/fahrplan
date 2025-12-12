@@ -211,16 +211,14 @@ Future<List> myTripRequestF(
             "|" +
             thisFormation[2] +
             "|" +
-            thisFormation[3] +
-            "|" +
-            thisFormation[4];
+            thisFormation[3];
       } else {
         theCall[jRef + StopPointRefText] =
-            theCall[jRef + StopPointRefText] + "|-" + "|-" + "|-";
+            theCall[jRef + StopPointRefText] + "|-" + "|-";
       }
     } else {
       theCall[jRef + StopPointRefText] =
-          theCall[jRef + StopPointRefText] + "|-" + "|-" + "|-";
+          theCall[jRef + StopPointRefText] + "|-" + "|-";
     }
   }
 
