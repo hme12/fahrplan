@@ -304,8 +304,7 @@ class OrsDirPageState extends State<OrsDirPage> {
         List dirBBox = dirMap['bbox'];
         String dirGeom = dirMap['geometry'];
 
-        PolylinePoints polylinePoints = PolylinePoints();
-        List<PointLatLng> routeCoords = polylinePoints.decodePolyline(dirGeom);
+        List<PointLatLng> routeCoords = PolylinePoints.decodePolyline(dirGeom);
 
         int routeCoordsLength = routeCoords.length;
 
