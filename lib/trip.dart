@@ -25,7 +25,7 @@ class TripPageState extends State<TripPage> {
   String thistUtcd = " ";
   String thistLoc = " ";
   String thistDate = " ";
-  String tripTrainNumber = ".";
+  String tripTrainNumber = "";
 
   String requestUtc = "";
   String startLats = "no latitude";
@@ -149,7 +149,10 @@ class TripPageState extends State<TripPage> {
       TheTrip = await myTripRequestF(ftUtc, fJRef, fOpDay);
 
       tripTrainNumber = TheTrip[0];
-      TheTripMap = TheTrip[1];
+
+      if (tripTrainNumber != "0") {
+        TheTripMap = TheTrip[1];
+      }
 
       setState(() {});
     }

@@ -254,30 +254,34 @@ String cleanFormation(String formation) {
 
 String wEvu(String jRef) {
   List<String> jRefItems = jRef.split(":");
-  String jEvu = jRefItems[3];
 
   String evu = "nA";
 
-  if (jEvu.endsWith("053")) {
-    evu = "RhB";
-  } else if (jEvu.endsWith("001")) {
-    evu = "SBBP";
-  } else if (jEvu.endsWith("046")) {
-    evu = "THURBO";
-  } else if (jEvu.endsWith("061")) {
-    evu = "SOB";
-  } else if (jEvu.endsWith("015")) {
-    evu = "BLSP";
-  } else if (jEvu.endsWith("012")) {
-    evu = "MBC";
-  } else if (jEvu.endsWith("049")) {
-    evu = "OeBB";
-  } else if (jEvu.endsWith("034")) {
-    evu = "TPF";
-  } else if (jEvu.endsWith("025")) {
-    evu = "TRN";
-  } else if (jEvu.endsWith("064")) {
-    evu = "ZB";
+  if (jRefItems.length == 2) {
+
+    String jEvu = jRefItems[3];
+
+    if (jEvu.endsWith("053")) {
+      evu = "RhB";
+    } else if (jEvu.endsWith("001")) {
+      evu = "SBBP";
+    } else if (jEvu.endsWith("046")) {
+      evu = "THURBO";
+    } else if (jEvu.endsWith("061")) {
+      evu = "SOB";
+    } else if (jEvu.endsWith("015")) {
+      evu = "BLSP";
+    } else if (jEvu.endsWith("012")) {
+      evu = "MBC";
+    } else if (jEvu.endsWith("049")) {
+      evu = "OeBB";
+    } else if (jEvu.endsWith("034")) {
+      evu = "TPF";
+    } else if (jEvu.endsWith("025")) {
+      evu = "TRN";
+    } else if (jEvu.endsWith("064")) {
+      evu = "ZB";
+    }
   }
 
   return (evu);

@@ -73,6 +73,12 @@ Future<List> myTripRequestF(
 
   final List<int> tripResponseBytes = tripResponse.bodyBytes;
 
+  if (tripResponseBytes.isEmpty) {
+    var noCalls = [];
+    noCalls.add("0");
+    return (noCalls);
+  } 
+
   var pTripResponseBody = utf8.decode(tripResponseBytes);
   var oTripResponseBody = utf8.decode(tripResponseBytes);
 
