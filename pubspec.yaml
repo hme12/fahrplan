@@ -42,7 +42,7 @@ dependencies:
   location: ^8.0.0
   permission_handler: ^12.0.0+1
   open_route_service: 1.2.7
-  flutter_polyline_points: any
+  flutter_polyline_points: 3.1.0
   http_parser: any
 
 dev_dependencies:
