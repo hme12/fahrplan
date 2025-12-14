@@ -193,7 +193,7 @@ class OsMapPageState extends State<OsMapPage> {
     });
   }
 
-  go_start() {
+  void go_start() {
     if (mapNotTapped) {
       startArgs.add(hereLatLong.latitude.toString());
       startArgs.add(hereLatLong.longitude.toString());

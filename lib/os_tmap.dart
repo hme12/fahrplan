@@ -135,7 +135,7 @@ class OstMapPageState extends State<OstMapPage> {
     myMapController.move(centNow, zoo);
   }
 
-  go_stations() {
+  void go_stations() {
     Navigator.pushNamed(context, 'StationsPage', arguments: statsArgs);
   }
 
