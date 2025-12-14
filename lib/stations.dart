@@ -178,7 +178,6 @@ class StationsPageState extends State<StationsPage> {
     inArgs = (isett.arguments) as List;
 
     if (inArgsNotDone) {
-
       startArgs = inArgs.toList();
       stopsArgs = inArgs.toList();
       stmapArgs = inArgs.toList();

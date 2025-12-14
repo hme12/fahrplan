@@ -282,7 +282,7 @@ class StartPageState extends State<StartPage> {
     super.dispose();
   }
 
-  prepareWidget() {
+  void prepareWidget() {
     if (startLats.contains("latitude")) {
       startLoc();
     }
@@ -307,7 +307,6 @@ class StartPageState extends State<StartPage> {
 
         if (inArgsNotDone) {
           if (inArgs.length > 0) {
-
             if (inArgs.length == 9) {
               startLat = double.parse(inArgs[7]);
               startLong = double.parse(inArgs[8]);

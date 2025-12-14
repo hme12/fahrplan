@@ -252,7 +252,6 @@ class StopsPageState extends State<StopsPage> {
     inArgs = (isett.arguments) as List;
 
     if (inArgsNotDone) {
-
       startArgs = fillArgs(7, inArgs);
       statsArgs = fillArgs(7, inArgs);
       orsArgs = inArgs.toList();

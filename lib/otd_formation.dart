@@ -1,5 +1,4 @@
 import 'package:http/http.dart' as http;
-import 'package:xml/xml.dart';
 import 'dart:convert';
 import 'dart:core';
 
@@ -10,8 +9,8 @@ String myFormationRequestString(String evu, String trainNumber, String opDay) {
   String baseUrl = 'https://api.opentransportdata.swiss/formation/v2/';
 
   String stopBased = 'formations_stop_based';
-  String vehicleBased = 'formations_vehicle_based';
-  String fullBased = 'formations_full';
+//  String vehicleBased = 'formations_vehicle_based';
+//  String fullBased = 'formations_full';
 
   String req1 = baseUrl;
 
@@ -33,58 +32,55 @@ Future<List> myFormationRequestF(
   String trainNumber,
   String opDay,
 ) async {
-  List<String> jRefItems = jRef.split(":");
-  String jEvu = jRefItems[3];
-
   String evu = wEvu(jRef);
 
   var theForms = [];
 
-  if ((evu != "nA") && (evu != "RhB")) {
-  Map<String, String> header = myFormHeader();
+  //  if ((evu != "nA") && (evu != "RhB")) {
+  if (evu != "nA") {
+    Map<String, String> header = myFormHeader();
 
-  String formationRequest = myFormationRequestString(evu, trainNumber, opDay);
+    String formationRequest = myFormationRequestString(evu, trainNumber, opDay);
 
-  final requestUrl = Uri.parse(formationRequest);
+    final requestUrl = Uri.parse(formationRequest);
 
-  var formationResponse = await http.get(requestUrl, headers: header);
+    var formationResponse = await http.get(requestUrl, headers: header);
 
-  int formationResponseStatus = formationResponse.statusCode;
+    int formationResponseStatus = formationResponse.statusCode;
 
-  if (formationResponseStatus == 200) {
-    theForms.add(trainNumber);
+    if (formationResponseStatus == 200) {
+      theForms.add(trainNumber);
 
-    final List<int> formationResponseBytes = formationResponse.bodyBytes;
+      final List<int> formationResponseBytes = formationResponse.bodyBytes;
 
-    var formationResponseBody = utf8.decode(formationResponseBytes);
+      var formationResponseBody = utf8.decode(formationResponseBytes);
 
-    var formationResponseJson = jsonDecode(formationResponseBody);
+      var formationResponseJson = jsonDecode(formationResponseBody);
 
-    var theForm = {};
+      var theForm = {};
 
-    var g1 = formationResponseJson["formationsAtScheduledStops"];
+      var g1 = formationResponseJson["formationsAtScheduledStops"];
 
-    for (var g4 in g1) {
-      var g5 = g4["scheduledStop"];
+      for (var g4 in g1) {
+        var g5 = g4["scheduledStop"];
 
-      var g8 = g5["stopPoint"];
-      String g9 = g8["uic"].toString();
-      String g10 = g8["name"];
+        var g8 = g5["stopPoint"];
+        String g9 = g8["uic"].toString();
+        String g10 = g8["name"];
 
-      var g6 = g4["formationShort"];
-      var g7 = g6["formationShortString"];
+        var g6 = g4["formationShort"];
+        var g7 = g6["formationShortString"];
 
-      if (g7 != null) {
-        String clForm = cleanFormation(g7);
+        if (g7 != null) {
+          String clForm = cleanFormation(g7);
 
           theForm[jRef + g9] = g9 + "|" + g10 + "|<- " + g7 + "|<- " + clForm;
-      } else {
+        } else {
           theForm[jRef + g9] = g9 + "|" + g10 + "|<- " + "|<- ";
+        }
       }
-    }
 
-    theForms.add(theForm);
-
+      theForms.add(theForm);
     } else {
       theForms.add("0");
     }

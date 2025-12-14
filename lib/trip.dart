@@ -311,7 +311,6 @@ class TripPageState extends State<TripPage> {
     inArgs = (isett.arguments) as List;
 
     if (inArgsNotDone) {
-
       startArgs = fillArgs(7, inArgs);
       statsArgs = fillArgs(7, inArgs);
       stopArgs = fillArgs(12, inArgs);

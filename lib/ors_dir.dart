@@ -242,15 +242,15 @@ class OrsDirPageState extends State<OrsDirPage> {
     return fArgs;
   }
 
-  go_start() {
+  void go_start() {
     Navigator.pushNamed(context, 'StartPage', arguments: startArgs);
   }
 
-  go_stations() {
+  void go_stations() {
     Navigator.pushNamed(context, 'StationsPage', arguments: statsArgs);
   }
 
-  go_stops() {
+  void go_stops() {
     stopsArgs.add(myDuration);
 
     Navigator.pushNamed(context, 'StopsPage', arguments: stopsArgs);
@@ -535,7 +535,6 @@ class OrsDirPageState extends State<OrsDirPage> {
     fillDropItems();
 
     appTitle = 'Weg';
-    //    urlTemplate = "https://tile.openstreetmap.org/{z}/{x}/{y}.png";
 
     var circles = rPoints.map((latlng) {
       return CircleMarker(radius: 5.0, point: latlng, color: Colors.deepOrange);

@@ -9,7 +9,6 @@ import 'ors_key.dart';
 import 'def_coords.dart';
 
 Future<List<double>> myLocationF() async {
-
   List<double> defCoord = [defLatitude, defLongitude];
 
   if (Platform.isLinux) {
@@ -18,30 +17,30 @@ Future<List<double>> myLocationF() async {
 
   Location location = Location();
 
-  bool _serviceEnabled;
-  PermissionStatus _permissionGranted;
-  LocationData _locationData;
+  bool serviceEnabled;
+  PermissionStatus permissionGranted;
+  LocationData locationData;
 
-  _serviceEnabled = await location.serviceEnabled();
-  if (!_serviceEnabled) {
-    _serviceEnabled = await location.requestService();
-    if (!_serviceEnabled) {
+  serviceEnabled = await location.serviceEnabled();
+  if (!serviceEnabled) {
+    serviceEnabled = await location.requestService();
+    if (!serviceEnabled) {
       return defCoord;
     }
   }
 
-  _permissionGranted = await location.hasPermission();
-  if (_permissionGranted == PermissionStatus.denied) {
-    _permissionGranted = await location.requestPermission();
-    if (_permissionGranted != PermissionStatus.granted) {
+  permissionGranted = await location.hasPermission();
+  if (permissionGranted == PermissionStatus.denied) {
+    permissionGranted = await location.requestPermission();
+    if (permissionGranted != PermissionStatus.granted) {
       return defCoord;
     }
   }
 
-  _locationData = await location.getLocation();
+  locationData = await location.getLocation();
 
-  double? latitude = _locationData.latitude;
-  double? longitude = _locationData.longitude;
+  double? latitude = locationData.latitude;
+  double? longitude = locationData.longitude;
 
   List<double> here = [latitude!, longitude!];
 
