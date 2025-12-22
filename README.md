@@ -53,10 +53,10 @@ Nach der Auswahl einer Verbindung werden die Stationen der Verbindung angezeigt.
 
 Nach der Auswahl einer Station werden die Stationen in der Umgebung dieser Station angezeigt.
 
-Die Umgebung der Station kann man sich mit Hilfe des Buttons unten anzeigen lassen.
 
 ![Screenshot_2025-12-22-14-29-54-211_em fahrplan2](https://github.com/user-attachments/assets/39d6a649-3000-46ba-ace0-2616b8051ec6)
 
+Nach der Auswahl einer Station werden die dortigen nächsten Verbindungen angezeigt.
 
 ![Screenshot_2025-12-22-14-30-04-824_em fahrplan2](https://github.com/user-attachments/assets/5f5c2972-4252-40f0-9673-53c087f3e0a3)
 
