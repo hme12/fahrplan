@@ -1,6 +1,7 @@
 **Eine Flutter-App für den öffentlichen Verkehr in der Schweiz**
 
 In otd_header.dart muss ein Schlüssel vom opentransportdata.swiss eingetragen werden.
+
 In otd_header_form.dart muss der Schlüssel für den Train Formation Service eingetragen werden.
 
 in ors_key.dart muss ein Schlüssel vom openrouteservice.org eingetragen werden.
@@ -27,6 +28,10 @@ Mit dem Button links unten kommt man zur Liste der Stationen in der Umgebung.
 
 ![Screenshot_2025-12-22-14-27-55-894_em fahrplan2](https://github.com/user-attachments/assets/dc200322-6beb-423f-97d7-dd79e47779bc)
 
+Rechts oben kann man verschiedene Kartendarstellungen auswählen. 
+
+Durch wiederholtes Antippen des linken Buttons kann man zwischen den drei Darstellungen von SwissTopo wechseln.
+
 ![Screenshot_2025-12-22-14-28-05-235_em fahrplan2](https://github.com/user-attachments/assets/8a411c1f-425f-422c-bea2-fc0eed8cf13e)
 
 
@@ -48,6 +53,7 @@ Auf der Karte, die man mit dem Button unten aufrufen kann, kann man sich den Weg
 
 
 Nach der Auswahl einer Verbindung werden die Stationen der Verbindung angezeigt.
+
 Die Wagenreihung ist immer nur kurzfristig (wenn überhaupt) abrufbar. Sie unterscheidet sich manchmal von der Anzeige am Bahnsteig.
 
 ![Screenshot_2025-12-22-14-29-41-958_em fahrplan2](https://github.com/user-attachments/assets/43656f50-bf02-4656-8c5d-85cfb2dca53b)
