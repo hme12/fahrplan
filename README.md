@@ -24,7 +24,8 @@ Das Datum und die Uhrzeit können ebenfalls geändert werden.
 
 Mit dem Button links unten kommt man zur Liste der Stationen in der Umgebung.
 
-![Screenshot_2025-12-22-14-27-55-894_em fahrplan2](https://github.com/user-attachments/assets/7ac37182-c43b-4f48-b588-652f6b564171)
+![Screenshot_2025-12-22-14-27-55-894_em fahrplan2](https://github.com/user-attachments/assets/dc200322-6beb-423f-97d7-dd79e47779bc)
+
 
 ![Start](https://github.com/user-attachments/assets/67ede6e9-a144-4454-ac4a-cd57c881bec0)
 
