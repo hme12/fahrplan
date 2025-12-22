@@ -1,6 +1,7 @@
 **Eine Flutter-App für den öffentlichen Verkehr in der Schweiz**
 
 In otd_header.dart muss ein Schlüssel vom opentransportdata.swiss eingetragen werden.
+In otd_header_form.dart muss der Schlüssel für den Train Formation Service eingetragen werden.
 
 in ors_key.dart muss ein Schlüssel vom openrouteservice.org eingetragen werden.
 
@@ -47,6 +48,7 @@ Auf der Karte, die man mit dem Button unten aufrufen kann, kann man sich den Weg
 
 
 Nach der Auswahl einer Verbindung werden die Stationen der Verbindung angezeigt.
+Die Wagenreihung ist immer nur kurzfristig (wenn überhaupt) abrufbar. Sie unterscheidet sich manchmal von der Anzeige am Bahnsteig.
 
 ![Screenshot_2025-12-22-14-29-41-958_em fahrplan2](https://github.com/user-attachments/assets/43656f50-bf02-4656-8c5d-85cfb2dca53b)
 
@@ -62,8 +64,7 @@ Nach der Auswahl einer Station werden die dortigen nächsten Verbindungen angeze
 
 ![Screenshot_2025-12-22-14-30-31-200_em fahrplan2](https://github.com/user-attachments/assets/99e67913-c3c7-446c-aced-ebedad550d86)
 
-Nach der Auswahl einer Station werden die dortigen nächsten Verbindungen angezeigt.
-
+usw.
 
 ![Screenshot_2025-12-22-14-31-14-358_em fahrplan2](https://github.com/user-attachments/assets/dacdb3e1-3d29-4c4c-ae75-52f052a64788)
 
@@ -73,5 +74,4 @@ Nach der Auswahl einer Station werden die dortigen nächsten Verbindungen angeze
 
 ![Screenshot_2025-12-22-14-31-39-838_em fahrplan2](https://github.com/user-attachments/assets/787cd8a2-0ef2-4bf0-b040-0b648995ac09)
 
-usw.
 
