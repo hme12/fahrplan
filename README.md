@@ -47,6 +47,7 @@ Auf der Karte, die man mit dem Button unten aufrufen kann, kann man sich den Weg
 
 
 Nach der Auswahl einer Verbindung werden die Stationen der Verbindung angezeigt.
+
 ![Screenshot_2025-12-22-14-29-41-958_em fahrplan2](https://github.com/user-attachments/assets/43656f50-bf02-4656-8c5d-85cfb2dca53b)
 
 
