@@ -235,9 +235,9 @@ String cleanFormation(String formation) {
   String form_09 = form_08.replaceAll(RegExp('VR'), '');
   String form_10 = form_09.replaceAll(RegExp('FA'), '');
   String form_11 = form_10.replaceAll(RegExp('LK'), 'L');
-  String form_12 = form_11.replaceAll(RegExp('WR'), '');
-  String form_13 = form_12.replaceAll(RegExp('W1'), '1');
-  String form_14 = form_13.replaceAll(RegExp('W2'), '2');
+  String form_12 = form_11.replaceAll(RegExp('WR'), 'R');
+  String form_13 = form_12.replaceAll(RegExp('W1'), 'R1');
+  String form_14 = form_13.replaceAll(RegExp('W2'), 'R2');
   String form_22 = form_14.replaceAll(RegExp(r':(\d+)'), '');
   String form_23 = form_22.replaceAll(RegExp('%'), '');
 
@@ -257,7 +257,7 @@ String wEvu(String jRef) {
 
   String evu = "nA";
 
-  if (jRefItems.length == 2) {
+  if (jRefItems.length == 5) {
 
     String jEvu = jRefItems[3];
 
