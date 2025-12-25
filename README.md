@@ -20,7 +20,7 @@ Die Permissions in AndroidManifest.xml lauten:
 
 Der aktuelle Standort wird auf dem Start-Screen angezeigt. 
 
-Auf der Karte (Button unten) kann man einen alternativen Standort auswählen.
+Auf der Karte (Button unten rechts) kann man einen alternativen Ausgangspunkt auswählen.
 
 Das Datum und die Uhrzeit können ebenfalls geändert werden. 
 
@@ -28,29 +28,39 @@ Mit dem Button links unten kommt man zur Liste der Stationen in der Umgebung.
 
 ![Screenshot_2025-12-22-14-27-55-894_em fahrplan2](https://github.com/user-attachments/assets/dc200322-6beb-423f-97d7-dd79e47779bc)
 
-Rechts oben kann man verschiedene Kartendarstellungen auswählen. 
+Auswahl eines alternative Ausgangspunkts:
 
-Durch wiederholtes Antippen des linken Buttons kann man zwischen den drei Darstellungen von SwissTopo wechseln.
+Rechts oben kann man verschiedene Kartendarstellungen (SwissTopo, OpenStreetMap, ESRI) auswählen. 
+
+Durch wiederholtes Antippen des Buttons für SwissTopo kann man zwischen den drei Darstellungen (schwarz-weiss, farbig, Luftbild) wechseln.
 
 ![Screenshot_2025-12-22-14-28-05-235_em fahrplan2](https://github.com/user-attachments/assets/8a411c1f-425f-422c-bea2-fc0eed8cf13e)
 
+Liste der Stationen:
 
-Es werden die Stationen in der Umgebung aufgelistet.
+Nach dem Antippen des Buttons links unten wird die Liste der Stationen in der Umgebung aufgelistet.
 
 ![Screenshot_2025-12-22-14-28-21-172_em fahrplan2](https://github.com/user-attachments/assets/19dec6c5-9d66-48c1-9ff7-10eea3272c6e)
+
+Nach dem Antippen des Buttons rechts unten werden diese Stationen auf einer Karte dargestellt.
 
 ![Screenshot_2025-12-22-14-28-29-809_em fahrplan2](https://github.com/user-attachments/assets/984b8af4-cb07-4ac0-8866-89fd8a6e9a54)
 
 Nach der Auswahl einer Station werden die dortigen nächsten Verbindungen angezeigt.
 
-Die Liste der Verbindungen zeigt die nächsten Ankünfte und Abfahrten.
-
 Auf der Karte, die man mit dem Button unten aufrufen kann, kann man sich den Weg zur Station anzeigen lassen.
 
 ![Screenshot_2025-12-22-14-28-47-168_em fahrplan2](https://github.com/user-attachments/assets/0a551bc2-f630-46d9-877e-dcf2d1c8edb5)
 
-![Screenshot_2025-12-22-14-29-02-163_em fahrplan2](https://github.com/user-attachments/assets/79a5bb12-e755-4afb-96ee-41c37f58b0e9)
+Weg zur Station:
 
+Man kann verschiedene Verkehrsmittel auswählen.
+
+Mit dem Button rechts neben der Liste der Verkehrsmittel ruft man eine Darstellung des Wegs auf.
+
+Die Entfernung und die geschätzte Dauer und die Ankunftszeit werden ebenfalls ausgegeben.
+
+![Screenshot_2025-12-22-14-29-02-163_em fahrplan2](https://github.com/user-attachments/assets/79a5bb12-e755-4afb-96ee-41c37f58b0e9)
 
 Nach der Auswahl einer Verbindung werden die Stationen der Verbindung angezeigt.
 
@@ -58,9 +68,7 @@ Die Wagenreihung ist immer nur kurzfristig (wenn überhaupt) abrufbar. Sie unter
 
 ![Screenshot_2025-12-22-14-29-41-958_em fahrplan2](https://github.com/user-attachments/assets/43656f50-bf02-4656-8c5d-85cfb2dca53b)
 
-
 Nach der Auswahl einer Station werden die Stationen in der Umgebung dieser Station angezeigt.
-
 
 ![Screenshot_2025-12-22-14-29-54-211_em fahrplan2](https://github.com/user-attachments/assets/39d6a649-3000-46ba-ace0-2616b8051ec6)
 
