@@ -6,6 +6,7 @@ import 'dart:core';
 import './otd_header.dart';
 import './otd_formation.dart';
 import './functions.dart';
+import './http_messages.dart';
 
 String myTripRequestString(String requestTime, String jRef, String opDay) {
   String sRTime = requestTime;
@@ -71,13 +72,26 @@ Future<List> myTripRequestF(
 
   var tripResponse = await http.post(url, headers: header, body: tripRequest);
 
+  int tripResponseStatus = tripResponse.statusCode;
+  String tripResponseStatusMessage = statusMessage(tripResponseStatus);
+
+  if (tripResponseStatus != 200) {
+    var noCalls = [];
+    noCalls.add("0");
+    noCalls.add(tripResponseStatus.toString());
+    noCalls.add(tripResponseStatusMessage);
+    return (noCalls);
+  }
+
   final List<int> tripResponseBytes = tripResponse.bodyBytes;
 
   if (tripResponseBytes.isEmpty) {
     var noCalls = [];
     noCalls.add("0");
+    noCalls.add("");
+    noCalls.add("");
     return (noCalls);
-  } 
+  }
 
   var pTripResponseBody = utf8.decode(tripResponseBytes);
   var oTripResponseBody = utf8.decode(tripResponseBytes);

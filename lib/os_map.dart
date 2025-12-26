@@ -34,6 +34,7 @@ class OsMapPageState extends State<OsMapPage> {
 
   bool mapNotTapped = true;
   bool inArgsNotDone = true;
+  bool fitted = false;
 
   List<LatLng> rPoints = [];
   List<LatLng> corns = [];
@@ -163,7 +164,7 @@ class OsMapPageState extends State<OsMapPage> {
 
       iCorns = CameraFit.coordinates(coordinates: corns);
 
-      bool fitted = myMapController.fitCamera(iCorns);
+      fitted = myMapController.fitCamera(iCorns);
 
       String snackPoint =
           "Lat. : " +
@@ -175,7 +176,7 @@ class OsMapPageState extends State<OsMapPage> {
     });
   }
 
-  void mapTapped(pos, LatLng pnt) {
+  void mapTapped(TapPosition pos, LatLng pnt) {
     startLatLong = pnt;
     mapNotTapped = false;
 

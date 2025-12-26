@@ -20,6 +20,8 @@ class TripPageState extends State<TripPage> {
   var TripIds = [];
   var TheTripMap = {};
   var TheTrip = [];
+  String retCode = "";
+  String retCodeMsg = "";
   String TheOneStation = "";
   bool inArgsNotDone = true;
   String thistUtcd = " ";
@@ -51,6 +53,10 @@ class TripPageState extends State<TripPage> {
 
   bool addressNotFound = true;
   String stationAddress = "no address";
+
+  String retOne = "";
+  String oneCode = "";
+  String oneCodeMsg = "";
 
   double tripFontSize = 20.0;
   double tripFontSizeT = 20.0 * 1.2;
@@ -126,6 +132,13 @@ class TripPageState extends State<TripPage> {
     double nstatsLat = double.parse(TheOneStationList[2]);
     double nstatsLong = double.parse(TheOneStationList[3]);
 
+    retOne = TheOneStationList[4];
+
+    if (retOne == "E") {
+      oneCode = TheOneStationList[0];
+      oneCodeMsg = TheOneStationList[1];
+    }
+
     nstatsArgs.add(nreqUtc);
     nstatsArgs.add(TheOneStationList[2]);
     nstatsArgs.add(TheOneStationList[3]);
@@ -141,7 +154,11 @@ class TripPageState extends State<TripPage> {
 
     nstatsArgs.add(nstatsAddress);
 
-    go_nstations();
+    if (retOne != "E") {
+      go_nstations();
+    } else {
+      setState(() {});
+    }
   }
 
   void myTripRequest(String ftUtc, String fJRef, String fOpDay) async {
@@ -152,6 +169,9 @@ class TripPageState extends State<TripPage> {
 
       if (tripTrainNumber != "0") {
         TheTripMap = TheTrip[1];
+      } else {
+        retCode = TheTrip[1];
+        retCodeMsg = TheTrip[2];
       }
 
       setState(() {});
@@ -388,8 +408,13 @@ class TripPageState extends State<TripPage> {
     Color? tColor = Colors.teal[400];
 
     if (tripLength < 1) {
-      titleText = titleText + "   nicht gefunden";
+      titleText = titleText + " " + retCode + " " + retCodeMsg;
       tColor = Colors.amber[400];
+    }
+
+    if (retOne == "E") {
+      titleText = titleText + " " + oneCode + " " + oneCodeMsg;
+      tColor = Colors.amber[200];
     }
 
     for (final tKy in tripKeys) {

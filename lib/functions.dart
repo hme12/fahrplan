@@ -258,7 +258,6 @@ String wEvu(String jRef) {
   String evu = "nA";
 
   if (jRefItems.length == 5) {
-
     String jEvu = jRefItems[3];
 
     if (jEvu.endsWith("053")) {

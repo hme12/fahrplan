@@ -14,6 +14,7 @@ class StopsPage extends StatefulWidget {
 
 class StopsPageState extends State<StopsPage> {
   int stopsLength = 1;
+  var TheStops0 = [];
   var TheStops = [];
 
   var Origs = {};
@@ -47,6 +48,10 @@ class StopsPageState extends State<StopsPage> {
   String thistDate = " ";
   String thistArrivS = "N";
 
+  String stopErr = "";
+  String stopErrCode = "";
+  String stopErrMsg = "";
+
   double stopsFontSize = 20.0;
   double stopsFontSizeT = 20.0 * 1.2;
   double stopsFontSizeS = 20.0 * 0.8;
@@ -55,6 +60,7 @@ class StopsPageState extends State<StopsPage> {
   List<dynamic> inArgs = [];
   List<dynamic> startArgs = [];
   List<dynamic> statsArgs = [];
+  List<dynamic> fstatsArgs = [];
   List<dynamic> orsArgs = [];
   List<dynamic> tripArgs = [];
 
@@ -108,6 +114,16 @@ class StopsPageState extends State<StopsPage> {
     Navigator.pushNamed(context, newroute, arguments: startArgs);
   }
 
+  void go_fstations() {
+    String newroute = 'StationsPage';
+
+    fstatsArgs.add(stopErr);
+    fstatsArgs.add(stopErrCode);
+    fstatsArgs.add(stopErrMsg);
+
+    Navigator.pushNamed(context, newroute, arguments: fstatsArgs);
+  }
+
   void go_stations() {
     String newroute = 'StationsPage';
 
@@ -125,9 +141,21 @@ class StopsPageState extends State<StopsPage> {
 
   void myStopsRequest(String ftUtc, String fNumStops, String fStationId) async {
     if (TheStops.length < 1) {
-      TheStops = await myStopsRequestF(ftUtc, fNumStops, fStationId);
+      TheStops0 = await myStopsRequestF(ftUtc, fNumStops, fStationId);
 
-      setState(() {});
+      List<String> thisStop0List = TheStops0[0].split('|');
+
+      if (thisStop0List[0] == "E") {
+        stopErr = thisStop0List[0];
+        stopErrCode = thisStop0List[1];
+        stopErrMsg = thisStop0List[2];
+
+        go_fstations();
+      } else {
+        TheStops = TheStops0;
+
+        setState(() {});
+      }
     }
   }
 
@@ -254,6 +282,7 @@ class StopsPageState extends State<StopsPage> {
     if (inArgsNotDone) {
       startArgs = fillArgs(7, inArgs);
       statsArgs = fillArgs(7, inArgs);
+      fstatsArgs = fillArgs(7, inArgs);
       orsArgs = inArgs.toList();
       tripArgs = inArgs.toList();
 

@@ -5,6 +5,8 @@ import 'dart:core';
 
 import './otd_header.dart';
 import './functions.dart';
+import './http_messages.dart';
+import './def_coords.dart';
 
 String myOneStationRequestString(
   String requestTime,
@@ -75,87 +77,105 @@ Future<String> myOneStationRequestF(
     body: stationsRequest,
   );
 
-  final List<int> stationsResponseBytes = stationsResponse.bodyBytes;
-
-  var stationsResponseBody = utf8.decode(stationsResponseBytes);
-
-  final stationsResponseXml = XmlDocument.parse(stationsResponseBody);
-
-  final allStations = stationsResponseXml.findAllElements('PlaceResult');
+  int stationsResponseStatus = stationsResponse.statusCode;
+  String stationsResponseStatusMessage = statusMessage(stationsResponseStatus);
 
   String theStation = "";
-  String theStationP = "";
-  bool notFound = true;
-  double maxProb = 0.0;
 
-  for (var oneStation in allStations) {
-    final stopPlaceRef = oneStation.findAllElements('StopPlaceRef');
-    String stopPlaceRefText = myInnerText(stopPlaceRef);
+  if (stationsResponseStatus != 200) {
+    theStation =
+        stationsResponseStatus.toString() +
+        "|" +
+        stationsResponseStatusMessage +
+        "|" +
+        defLatitude.toString() +
+        "|" +
+        defLongitude.toString() +
+        "|E";
+  } else {
+    final List<int> stationsResponseBytes = stationsResponse.bodyBytes;
 
-    //    final privCode = oneStation.findAllElements('PrivateCode');
-    //    String privCodeText = myInnerText(privCode);
+    var stationsResponseBody = utf8.decode(stationsResponseBytes);
 
-    //    final topoRef = oneStation.findAllElements('TopographicPlaceRef');
-    //    String topoRefText = myInnerText(topoRef);
+    final stationsResponseXml = XmlDocument.parse(stationsResponseBody);
 
-    final stopPlaceName = oneStation.findAllElements('StopPlaceName');
-    String stopPlaceNameText = myInnerText(stopPlaceName);
+    final allStations = stationsResponseXml.findAllElements('PlaceResult');
 
-    //    final stopName = oneStation.findAllElements('Name');
-    //    String stopNameText = myInnerText(stopName);
+    String theStationP = "";
+    bool notFound = true;
+    double maxProb = 0.0;
 
-    //    final geoPos = oneStation.findAllElements('GeoPosition');
-    //    String geoPosText = myInnerText(geoPos);
+    for (var oneStation in allStations) {
+      final stopPlaceRef = oneStation.findAllElements('StopPlaceRef');
+      String stopPlaceRefText = myInnerText(stopPlaceRef);
 
-    final geoLong = oneStation.findAllElements('siri:Longitude');
-    String geoLongText = myInnerText(geoLong);
+      //    final privCode = oneStation.findAllElements('PrivateCode');
+      //    String privCodeText = myInnerText(privCode);
 
-    final geoLat = oneStation.findAllElements('siri:Latitude');
-    String geoLatText = myInnerText(geoLat);
+      //    final topoRef = oneStation.findAllElements('TopographicPlaceRef');
+      //    String topoRefText = myInnerText(topoRef);
 
-    //    final compl = oneStation.findAllElements('Complete');
-    //    String complText = myInnerText(compl);
+      final stopPlaceName = oneStation.findAllElements('StopPlaceName');
+      String stopPlaceNameText = myInnerText(stopPlaceName);
 
-    final prob = oneStation.findAllElements('Probability');
-    String probText = myInnerText(prob);
+      //    final stopName = oneStation.findAllElements('Name');
+      //    String stopNameText = myInnerText(stopName);
 
-    //    final ptMode = oneStation.findAllElements('PtMode');
-    //    String ptModeText = myInnerText(ptMode);
+      //    final geoPos = oneStation.findAllElements('GeoPosition');
+      //    String geoPosText = myInnerText(geoPos);
 
-    //    final subMode = oneStation.findAllElements('siri:BusSubmode');
-    //    String subModeText = myInnerText(subMode);
+      final geoLong = oneStation.findAllElements('siri:Longitude');
+      String geoLongText = myInnerText(geoLong);
 
-    double probability = double.parse(probText);
+      final geoLat = oneStation.findAllElements('siri:Latitude');
+      String geoLatText = myInnerText(geoLat);
 
-    if (probability > maxProb) {
-      theStationP =
-          stopPlaceRefText +
-          "|" +
-          stopPlaceNameText +
-          "|" +
-          geoLatText +
-          "|" +
-          geoLongText;
+      //    final compl = oneStation.findAllElements('Complete');
+      //    String complText = myInnerText(compl);
 
-      maxProb = probability;
+      final prob = oneStation.findAllElements('Probability');
+      String probText = myInnerText(prob);
+
+      //    final ptMode = oneStation.findAllElements('PtMode');
+      //    String ptModeText = myInnerText(ptMode);
+
+      //    final subMode = oneStation.findAllElements('siri:BusSubmode');
+      //    String subModeText = myInnerText(subMode);
+
+      double probability = double.parse(probText);
+
+      if (probability > maxProb) {
+        theStationP =
+            stopPlaceRefText +
+            "|" +
+            stopPlaceNameText +
+            "|" +
+            geoLatText +
+            "|" +
+            geoLongText +
+            "|N";
+
+        maxProb = probability;
+      }
+
+      if (reqId == stopPlaceRefText) {
+        theStation =
+            stopPlaceRefText +
+            "|" +
+            stopPlaceNameText +
+            "|" +
+            geoLatText +
+            "|" +
+            geoLongText +
+            "|F";
+
+        notFound = false;
+      }
     }
 
-    if (reqId == stopPlaceRefText) {
-      theStation =
-          stopPlaceRefText +
-          "|" +
-          stopPlaceNameText +
-          "|" +
-          geoLatText +
-          "|" +
-          geoLongText;
-
-      notFound = false;
+    if (notFound) {
+      theStation = theStationP;
     }
-  }
-
-  if (notFound) {
-    theStation = theStationP;
   }
 
   return theStation;

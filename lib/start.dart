@@ -43,6 +43,11 @@ class StartPageState extends State<StartPage> {
   String startLongs = "no longitude";
   String startAddress = "no address";
 
+  String statErr = "";
+  String errCode = "";
+  String errCodeMsg = "";
+  String aTitle = "";
+
   double startFontSize = 20.0;
   double startFontSizeT = 20.0 * 1.2;
   double startFontSizeS = 20.0 * 0.8;
@@ -318,6 +323,15 @@ class StartPageState extends State<StartPage> {
               startAddress = inArgs[6];
             }
 
+            if (inArgs.length == 10) {
+              startLat = double.parse(inArgs[1]);
+              startLong = double.parse(inArgs[2]);
+              startAddress = inArgs[6];
+              statErr = inArgs[7];
+              errCode = inArgs[8];
+              errCodeMsg = inArgs[9];
+            }
+
             startLats = startLat.toStringAsFixed(6);
             startLongs = startLong.toStringAsFixed(6);
 
@@ -346,6 +360,15 @@ class StartPageState extends State<StartPage> {
     prepareWidget();
     workDTValues();
 
+    Color? tColor = Colors.teal[400];
+
+    if (statErr == "E") {
+      aTitle = "Fahrplan " + errCode + " " + errCodeMsg;
+      tColor = Colors.amber[400];
+    } else {
+      aTitle = "Fahrplan";
+    }
+
     return MaterialApp(
       theme: ThemeData(
         menuTheme: MenuThemeData(
@@ -357,8 +380,8 @@ class StartPageState extends State<StartPage> {
       home: Scaffold(
         backgroundColor: Colors.teal[50],
         appBar: AppBar(
-          title: Text("Fahrplan", style: TextStyle(fontSize: startFontSizeT)),
-          backgroundColor: Colors.teal[400],
+          title: Text(aTitle, style: TextStyle(fontSize: startFontSizeT)),
+          backgroundColor: tColor,
         ),
         body: Column(
           children: <Widget>[
