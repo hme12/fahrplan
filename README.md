@@ -1,6 +1,6 @@
 **Eine Flutter-App für den öffentlichen Verkehr in der Schweiz**
 
-In otd_header.dart muss ein Schlüssel vom opentransportdata.swiss eingetragen werden.
+In otd_header.dart muss ein Schlüssel von opentransportdata.swiss eingetragen werden.
 
 In otd_header_form.dart muss der Schlüssel für den Train Formation Service eingetragen werden.
 
