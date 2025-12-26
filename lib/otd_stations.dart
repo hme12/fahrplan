@@ -5,6 +5,7 @@ import 'dart:core';
 
 import './otd_header.dart';
 import './functions.dart';
+import './http_messages.dart';
 
 String myStationsRequestString(
   String requestTime,
@@ -98,6 +99,31 @@ Future<List> myStationsRequestF(
     headers: header,
     body: stationsRequest,
   );
+
+  int stationsResponseStatus = stationsResponse.statusCode;
+  String stationsResponseStatusMessage = statusMessage(stationsResponseStatus);
+
+  if (stationsResponseStatus != 200) {
+    var noStations = [];
+    var noStation = {};
+
+    noStation["E"] =
+        stationsResponseStatus.toString() +
+        "|" +
+        stationsResponseStatusMessage +
+        "|" +
+        " " +
+        "|" +
+        " " +
+        "|" +
+        " " +
+        "|" +
+        " ";
+
+    noStations.add(noStation);
+
+    return noStations;
+  }
 
   final List<int> stationsResponseBytes = stationsResponse.bodyBytes;
 

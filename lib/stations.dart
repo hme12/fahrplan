@@ -14,6 +14,7 @@ class StationsPageState extends State<StationsPage> {
   int stationsLength = 1;
   var TheStations = [];
   var TheStationsMap = {};
+  var TheStationsMap0 = {};
   var StationsIds = [];
 
   String requestUtc = "";
@@ -23,11 +24,18 @@ class StationsPageState extends State<StationsPage> {
   String numStats = "";
   String numStops = "";
   String startAddress = "";
+  String statCode = "";
+  String statCodeMsg = "";
+  String statErr = "";
+  String errCode = "";
+  String errCodeMsg = "";
+  String aTitle = "";
 
   bool inArgsNotDone = true;
 
   List<dynamic> inArgs = [];
   List<dynamic> startArgs = [];
+  List<dynamic> fstartArgs = [];
   List<dynamic> stopsArgs = [];
   List<dynamic> stmapArgs = [];
 
@@ -35,6 +43,16 @@ class StationsPageState extends State<StationsPage> {
   double stationsFontSizeT = 20.0 * 1.2;
   double stationsFontSizeS = 20.0 * 0.8;
   double stationsIconSize = 30.0;
+
+  List<dynamic> fillArgs(int count, List<dynamic> iArgs) {
+    List<dynamic> fArgs = [];
+
+    for (var i = 0; i < count; i++) {
+      fArgs.add(iArgs[i]);
+    }
+
+    return fArgs;
+  }
 
   void go_stops(String idx) {
     String newroute = 'StopsPage';
@@ -55,6 +73,16 @@ class StationsPageState extends State<StationsPage> {
     stopsArgs.add(stopLng);
 
     Navigator.pushNamed(context, newroute, arguments: stopsArgs);
+  }
+
+  void go_fstart() {
+    fstartArgs.add("E");
+    fstartArgs.add(statCode);
+    fstartArgs.add(statCodeMsg);
+
+    String newroute = 'StartPage';
+
+    Navigator.pushNamed(context, newroute, arguments: fstartArgs);
   }
 
   void go_start() {
@@ -85,9 +113,18 @@ class StationsPageState extends State<StationsPage> {
         fNumStats,
       );
 
-      TheStationsMap = TheStations[0];
+      TheStationsMap0 = TheStations[0];
 
-      setState(() {});
+      if (TheStationsMap0.containsKey("E")) {
+        List<String> codes = TheStationsMap0["E"].split('|');
+        statCode = codes[0];
+        statCodeMsg = codes[1];
+        go_fstart();
+      } else {
+        TheStationsMap = TheStations[0];
+
+        setState(() {});
+      }
     }
   }
 
@@ -178,9 +215,16 @@ class StationsPageState extends State<StationsPage> {
     inArgs = (isett.arguments) as List;
 
     if (inArgsNotDone) {
-      startArgs = inArgs.toList();
-      stopsArgs = inArgs.toList();
-      stmapArgs = inArgs.toList();
+      if (inArgs.length > 7) {
+        statErr = inArgs[7];
+        errCode = inArgs[8];
+        errCodeMsg = inArgs[9];
+      }
+
+      startArgs = fillArgs(7, inArgs);
+      fstartArgs = fillArgs(7, inArgs);
+      stopsArgs = fillArgs(7, inArgs);
+      stmapArgs = fillArgs(7, inArgs);
 
       requestUtc = inArgs.elementAt(0);
       startLats = inArgs.elementAt(1);
@@ -210,15 +254,21 @@ class StationsPageState extends State<StationsPage> {
       StationsIds.add(sKy);
     }
 
+    Color? tColor = Colors.teal[400];
+
+    if (statErr == "E") {
+      aTitle = startAddress + " " + errCode + " " + errCodeMsg;
+      tColor = Colors.amber[400];
+    } else {
+      aTitle = startAddress;
+    }
+
     return MaterialApp(
       home: Scaffold(
         backgroundColor: Colors.teal[50],
         appBar: AppBar(
-          title: Text(
-            startAddress,
-            style: TextStyle(fontSize: stationsFontSizeT),
-          ),
-          backgroundColor: Colors.teal[400],
+          title: Text(aTitle, style: TextStyle(fontSize: stationsFontSizeT)),
+          backgroundColor: tColor,
         ),
         body: ListView.builder(
           itemCount: stationsLength,

@@ -9,8 +9,8 @@ String myFormationRequestString(String evu, String trainNumber, String opDay) {
   String baseUrl = 'https://api.opentransportdata.swiss/formation/v2/';
 
   String stopBased = 'formations_stop_based';
-//  String vehicleBased = 'formations_vehicle_based';
-//  String fullBased = 'formations_full';
+  //  String vehicleBased = 'formations_vehicle_based';
+  //  String fullBased = 'formations_full';
 
   String req1 = baseUrl;
 

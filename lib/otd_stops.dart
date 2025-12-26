@@ -5,6 +5,7 @@ import 'dart:core';
 
 import './otd_header.dart';
 import './functions.dart';
+import './http_messages.dart';
 
 import 'dart:collection';
 
@@ -91,6 +92,22 @@ Future<List> myStopsRequestF(
   String stopsRequest = myStopsRequestString(requestTime, numStops, stationId);
 
   var stopsResponse = await http.post(url, headers: header, body: stopsRequest);
+
+  int stopsResponseStatus = stopsResponse.statusCode;
+  String stopsResponseStatusMessage = statusMessage(stopsResponseStatus);
+
+  var noStops = [];
+
+  if (stopsResponseStatus != 200) {
+    String noStop =
+        "E|" +
+        stopsResponseStatus.toString() +
+        "|" +
+        stopsResponseStatusMessage;
+
+    noStops.add(noStop);
+    return noStops;
+  }
 
   final List<int> stopsResponseBytes = stopsResponse.bodyBytes;
 
