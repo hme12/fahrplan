@@ -1,14 +1,20 @@
 **Eine Flutter-App für den öffentlichen Verkehr in der Schweiz**
 
-In otd_header.dart muss ein Schlüssel von opentransportdata.swiss eingetragen werden.
+In **otd_header.dart** muss ein Schlüssel von opentransportdata.swiss eingetragen werden.
 
-In otd_header_form.dart muss der Schlüssel für den Train Formation Service eingetragen werden.
+In **otd_header_form.dart** muss der Schlüssel für den Train Formation Service eingetragen werden.
 
-in ors_key.dart muss ein Schlüssel vom openrouteservice.org eingetragen werden.
+In **ors_key.dart** muss ein Schlüssel vom openrouteservice.org eingetragen werden.
 
-Die Abhängigkeiten sind in pubspec.yaml gelistet.
+In **ors_dir.dart, os_map.dart und os_tmap.dart**
 
-Die Permissions in AndroidManifest.xml lauten:
+muss ein eigener "userAgentPackageName" eingetragen werden.
+
+Siehe hier: https://docs.fleaflet.dev/tile-servers/using-openstreetmap-direct
+
+Die Abhängigkeiten sind in **pubspec.yaml** gelistet.
+
+Die Permissions in **AndroidManifest.xml** lauten:
 
   android.permission.ACCESS_COARSE_LOCATION
   
